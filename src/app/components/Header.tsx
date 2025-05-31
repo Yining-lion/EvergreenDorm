@@ -52,7 +52,7 @@ export default function Header() {
               <div className="border border-gray-300 h-10 mr-5"></div>
               <img src="/icons/member/Bell.svg" className="size-10 mr-2" />
               <Link href="/member">
-                <img src={user.photoURL || "/icons/member/Headshot.svg"} className="size-10 object-cover rounded-full" />
+                <img src={user.photoURL as string || "/icons/member/Headshot.svg"} className="size-10 object-cover rounded-full" />
               </Link>
             </div>
           ) : ( 

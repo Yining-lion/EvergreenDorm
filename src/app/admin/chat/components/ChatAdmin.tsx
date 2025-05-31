@@ -14,7 +14,7 @@ export default function ChatAdmin () {
     const [activeRoomId, setActiveRoomId] = useState<string>("global");
 
     // 取得聊天室清單（admin 角色可取得所有房間）
-    const chatRooms = useChatRooms(user?.uid ?? "", user?.role ?? "", "system");
+    const chatRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "system");
 
     if (loading || !user) return <LoadingSpinner />;
 
