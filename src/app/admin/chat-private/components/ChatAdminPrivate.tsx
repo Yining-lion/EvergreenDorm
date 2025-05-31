@@ -29,7 +29,7 @@ export default function ChatAdminPrivate () {
     const [search, setSearch] = useState("");
 
     // 取得聊天室清單（admin 角色可取得所有房間）
-    const chatRooms = useChatRooms(user?.uid ?? "", user?.role ?? "", "private");
+    const chatRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
 
     useEffect(() => {
 
