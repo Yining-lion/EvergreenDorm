@@ -1,0 +1,101 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import CatWrapper from "@/app/components/CatWrapper"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/app/lib/firebase";
+import Link from "next/link"
+import { useAuth } from "@/app/auth/authContext";
+import { FirebaseError } from "firebase/app";
+
+const errorMessages: { [key: string]: string } = {
+  "auth/invalid-email": "無效的電子郵件格式",
+  "auth/internal-error": "系統錯誤，請稍後再試",
+  "auth/invalid-credential": "帳號或密碼錯誤，請再試一次",
+};
+
+export default function CatLogin () {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
+    const router = useRouter();
+    const { user, loading } = useAuth();
+
+    async function handleLogin(e: React.FormEvent) {
+      e.preventDefault();
+
+      try {
+
+        await signInWithEmailAndPassword(auth, email, password);
+
+      } catch (err: unknown) {
+        if (err instanceof FirebaseError) {
+            const errorCode = err.code;
+            const errorMessage = errorMessages[errorCode] || "登入失敗，請再試一次";
+            setMessage(errorMessage);
+            console.log("錯誤代碼：", err.code);
+            console.log("錯誤訊息：", err.message);
+        }
+      }
+    }
+
+    useEffect(() => {
+        if (loading) return;
+
+        if (user?.role === "admin") {
+            router.push("/admin");
+        } else if (user?.role === "member") {
+            router.push("/");
+        } else {
+            router.push("/login");
+        }
+    }, [user, loading]);
+
+    return (
+        <CatWrapper>
+            <form onSubmit={handleLogin} className="relative w-[250px] m-auto flex flex-col items-center">
+                <h2 className="text-center text-2xl font-bold mb-4">登入會員</h2>
+
+                <div className="flex items-center w-full mb-2 bg-primary-orange p-2">
+                    <img src="/icons/login/Email.svg" alt="email" className="size-5 mr-2"></img>
+                    <input 
+                    type="email" 
+                    placeholder="電子信箱" 
+                    className="focus:outline-none"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onFocus={() => setMessage("")}
+                    required
+                    />
+                </div>
+                <div className="flex items-center w-full mb-2 bg-primary-orange p-2">
+                    <img src="/icons/login/Lock.svg" alt="password" className="size-5 mr-2"></img>
+                    <input 
+                    type="password" 
+                    placeholder="密碼" 
+                    className="focus:outline-none"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onFocus={() => setMessage("")}
+                    required
+                    />
+                </div>
+
+                <p className="absolute right-0 bottom-28 text-sm cursor-pointer hover:underline">忘記密碼？</p>
+
+                {message && (
+                    <p className="absolute bottom-19 text-sm text-red-600">
+                        {message}
+                    </p>
+                )}
+
+                <button type="submit" className="w-[150px] bg-[#FF8C62] text-white py-2 cursor-pointer font-semibold mt-17">登入</button>
+                <Link href="/signup">
+                    <p className="text-center mt-2 text-sm cursor-pointer hover:underline">註冊會員</p>
+                </Link>
+
+            </form>
+        </CatWrapper>
+    )
+}

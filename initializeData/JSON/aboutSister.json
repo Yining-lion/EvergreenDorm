@@ -1,0 +1,19 @@
+{
+    "type": "aboutSister",
+    "data": [
+        {
+            "category": "第一位修女",
+            "description": "尚待編輯",
+            "images": [
+                { "file": "修女預覽圖.JPG"}
+            ]
+        },
+        {
+            "category": "第二位修女",
+            "description": "尚待編輯",
+            "images": [
+                { "file": ""}
+            ]
+        }
+    ]
+}

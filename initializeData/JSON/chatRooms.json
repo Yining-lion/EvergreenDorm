@@ -1,0 +1,46 @@
+{
+  "type": "chatRooms",
+  "data": [
+    {
+        "id": "global",
+        "name": "全部",
+        "type": "global"
+    },
+    {
+        "id": "C1雅房",
+        "name": "C1雅房",
+        "type": "BF",
+        "BF": "C1"
+    },
+    {
+        "id": "C2雅房",
+        "name": "C2雅房",
+        "type": "BF",
+        "BF": "C2"
+    },
+    {
+        "id": "C3雅房",
+        "name": "C3雅房",
+        "type": "BF",
+        "BF": "C3"
+    },
+    {
+        "id": "C4雅房",
+        "name": "C4雅房",
+        "type": "BF",
+        "BF": "C4"
+    },
+        {
+        "id": "B3雅房",
+        "name": "B3雅房",
+        "type": "BF",
+        "BF": "B3"
+    },
+        {
+        "id": "B4雅房",
+        "name": "B4雅房",
+        "type": "BF",
+        "BF": "B4"
+    }
+  ]
+}

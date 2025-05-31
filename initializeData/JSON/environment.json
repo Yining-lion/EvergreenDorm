@@ -1,0 +1,48 @@
+{
+  "type": "environment",
+  "data": [
+  {
+    "category": "B棟",
+    "description": "B棟共兩層樓，有單人套房、單人雅房，每層皆有衛浴廁所各兩間、飲水機；頂樓有洗衣機及寬闊的曬衣空間",
+    "images": [
+      { "file": "B棟單人套房.JPG", "title": "B棟單人套房" },
+      { "file": "B棟單人雅房01.JPG", "title": "B棟單人雅房" },
+      { "file": "B棟單人雅房02.jpg", "title": "B棟單人雅房" },
+      { "file": "B棟雅房公浴廁.jpg", "title": "B棟雅房公共浴廁" },
+      { "file": "B棟頂樓曬衣間.jpg", "title": "B棟頂樓曬衣場" },
+      { "file": "B棟頂樓曬衣場洗衣機.jpg", "title": "B棟頂樓洗衣機" }
+    ]
+  },
+  {
+    "category": "C棟",
+    "description": "C棟共四層樓，有單人套房、雙人雅房，每層皆有衛浴廁所各四間、飲水機、洗衣機及曬衣間；頂樓有洗衣機、烘乾機及寬闊的曬衣空間",
+    "images": [
+      { "file": "C棟雙人雅房01.jpg", "title": "C棟雙人雅房" },
+      { "file": "C棟雙人雅房02.jpg", "title": "C棟雙人雅房" },
+      { "file": "C棟雅房公浴廁.JPG", "title": "C棟雅房公j共浴廁" },
+      { "file": "C棟每層曬衣間.JPG", "title": "C棟每層曬衣間" },
+      { "file": "C棟每層曬衣間洗衣機.jpg", "title": "C棟每層曬衣間洗衣機" },
+      { "file": "C棟走廊.jpg", "title": "C棟走廊" },
+      { "file": "C棟頂樓曬衣場.jpg", "title": "C棟頂樓曬衣場" },
+      { "file": "C棟頂樓洗衣機.jpg", "title": "C棟頂樓洗衣機" },
+      { "file": "C棟頂樓烘乾機.jpg", "title": "C棟頂樓烘乾機" },
+      { "file": "C棟飲水機.jpg", "title": "C棟飲水機" }
+    ]
+  }
+,
+  {
+    "category": "公共空間",
+    "description": "公共空間有會客室、前後院、機車&腳踏車停車場、公共廚房，以及地下室有乒乓球桌、運動腳踏車、圖書室",
+    "images": [
+      { "file": "會客室.jpg", "title": "會客室" },
+      { "file": "前院.jpg", "title": "前院可暫停汽車" },
+      { "file": "後院.jpg", "title": "後院可停機車" },
+      { "file": "停車場.jpg", "title": "機車、腳踏車停車場" },
+      { "file": "公共廚房.jpg", "title": "公共廚房提供烤箱、微波爐、電鍋之使用" },
+      { "file": "地下室乒乓桌.jpg", "title": "地下室乒乓球桌" },
+      { "file": "地下室運動腳踏車.jpg", "title": "地下室運動腳踏車" },
+      { "file": "地下室圖書室.jpg", "title": "地下室圖書室" }
+    ]
+  }
+]
+}

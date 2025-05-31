@@ -1,0 +1,617 @@
+{
+  "type": "rooms",
+  "data": [
+    {
+        "id": "C-1-101",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "101",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-1-102",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "102",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-1-103",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "103",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-1-104",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "104",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-1-105",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "105",
+        "type": "套房",
+        "person": "單人",
+        "rent": 0
+    },
+    {
+        "id": "C-1-106",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "106",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-1-107",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "107",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-1-108",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "108",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-1-109",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "109",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-1-110",
+        "building": "C",
+        "floor": 1,
+        "roomNumber": "110",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-2-201",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "201",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-2-202",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "202",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-2-203",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "203",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-2-204",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "204",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-2-205",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "205",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-2-206",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "206",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-2-207",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "207",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-2-208",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "208",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-2-209",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "209",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-2-210",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "210",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+        {
+        "id": "C-2-211",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "211",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-2-212",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "212",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-2-213",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "213",
+        "type": "雅房",
+        "person": "單人",
+        "rent": 6800
+    },
+    {
+        "id": "C-2-214",
+        "building": "C",
+        "floor": 2,
+        "roomNumber": "214",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-3-301",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "301",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-3-302",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "302",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-3-303",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "303",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-3-304",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "304",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-3-305",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "305",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-3-306",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "306",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-3-307",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "307",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-3-308",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "308",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-3-309",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "309",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-3-310",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "310",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+        {
+        "id": "C-3-311",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "311",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-3-312",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "312",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 7350
+    },
+    {
+        "id": "C-3-313",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "313",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-3-314",
+        "building": "C",
+        "floor": 3,
+        "roomNumber": "314",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-4-401",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "401",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-4-402",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "402",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "C-4-403",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "403",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-4-404",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "404",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-4-405",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "405",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-4-406",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "406",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-4-407",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "407",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-4-408",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "408",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-4-409",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "409",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-4-410",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "410",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+        {
+        "id": "C-4-411",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "411",
+        "type": "雅房",
+        "person": "雙人",
+        "rent": 9000
+    },
+    {
+        "id": "C-4-412",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "412",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "C-4-413",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "413",
+        "type": "雅房",
+        "person": "單人",
+        "rent": 6800
+    },
+    {
+        "id": "C-4-414",
+        "building": "C",
+        "floor": 4,
+        "roomNumber": "414",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "B-3-301",
+        "building": "B",
+        "floor": 3,
+        "roomNumber": "301",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "B-3-302",
+        "building": "B",
+        "floor": 3,
+        "roomNumber": "302",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "B-3-303",
+        "building": "B",
+        "floor": 3,
+        "roomNumber": "303",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "B-3-304",
+        "building": "B",
+        "floor": 3,
+        "roomNumber": "304",
+        "type": "雅房",
+        "person": "單人",
+        "rent": 5250
+    },
+    {
+        "id": "B-3-305",
+        "building": "B",
+        "floor": 3,
+        "roomNumber": "305",
+        "type": "雅房",
+        "person": "單人",
+        "rent": 6300
+    },
+    {
+        "id": "B-3-306",
+        "building": "B",
+        "floor": 3,
+        "roomNumber": "306",
+        "type": "雅房",
+        "person": "單人",
+        "rent": 6300
+    },
+        {
+        "id": "B-3-307",
+        "building": "B",
+        "floor": 3,
+        "roomNumber": "307",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+        {
+        "id": "B-3-308",
+        "building": "B",
+        "floor": 3,
+        "roomNumber": "308",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "B-4-401",
+        "building": "B",
+        "floor": 4,
+        "roomNumber": "401",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "B-4-402",
+        "building": "B",
+        "floor": 4,
+        "roomNumber": "402",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+    {
+        "id": "B-4-403",
+        "building": "B",
+        "floor": 4,
+        "roomNumber": "403",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7350
+    },
+    {
+        "id": "B-4-404",
+        "building": "B",
+        "floor": 4,
+        "roomNumber": "404",
+        "type": "雅房",
+        "person": "單人",
+        "rent": 5250
+    },
+    {
+        "id": "B-4-405",
+        "building": "B",
+        "floor": 4,
+        "roomNumber": "405",
+        "type": "雅房",
+        "person": "單人",
+        "rent": 6300
+    },
+    {
+        "id": "B-4-406",
+        "building": "B",
+        "floor": 4,
+        "roomNumber": "406",
+        "type": "雅房",
+        "person": "單人",
+        "rent": 6300
+    },
+        {
+        "id": "B-4-407",
+        "building": "B",
+        "floor": 4,
+        "roomNumber": "407",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    },
+        {
+        "id": "B-4-408",
+        "building": "B",
+        "floor": 4,
+        "roomNumber": "408",
+        "type": "套房",
+        "person": "單人",
+        "rent": 7000
+    }
+  ]
+}
