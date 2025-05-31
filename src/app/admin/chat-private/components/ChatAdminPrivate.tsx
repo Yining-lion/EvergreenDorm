@@ -22,8 +22,6 @@ type ChatRoomWithProfile = {
   };
 };
 
-type Role = "admin" | "member";
-
 export default function ChatAdminPrivate () {
     const { user, loading } = useAuth();
     const [roomsWithProfile, setRoomsWithProfile] = useState<ChatRoomWithProfile[]>([]);
@@ -31,8 +29,7 @@ export default function ChatAdminPrivate () {
     const [search, setSearch] = useState("");
 
     // 取得聊天室清單 (admin 角色可取得所有房間)
-    const role: Role = (user?.role === "admin" || user?.role === "member") ? user.role : "admin";
-    const chatRooms = useChatRooms(user?.uid ?? "", role, "private");
+    const chatRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
 
     useEffect(() => {
 
