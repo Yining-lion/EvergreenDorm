@@ -57,10 +57,10 @@ export default function Header() {
             </div>
           ) : ( 
             <div className="hidden lg:flex">
-              <Link href="appointment">
+              <Link href="/appointment">
                 <Button variant="green" className="px-5 py-3 rounded-full text-lg w-[120px] mr-5">預約看房</Button>
               </Link>
-              <Link href="login">
+              <Link href="/login">
                 <Button variant="green" className="px-5 py-3 rounded-full w-[120px] text-lg">登入/註冊</Button>              
               </Link>
             </div>
@@ -95,10 +95,10 @@ export default function Header() {
 
             { !isLoggedIn && (
               <div className="flex flex-col gap-3 w-full mt-10 max-w-[150px]">
-                <Link href="appointment" onClick={() => setMenuOpen(false)}>
+                <Link href="/appointment" onClick={() => setMenuOpen(false)}>
                   <Button variant="green" className="w-full py-3 text-lg rounded-full">預約看房</Button>
                 </Link>
-                <Link href="login" onClick={() => setMenuOpen(false)}>
+                <Link href="/login" onClick={() => setMenuOpen(false)}>
                   <Button variant="green" className="w-full py-3 text-lg rounded-full">登入/註冊</Button>
                 </Link>
               </div>
