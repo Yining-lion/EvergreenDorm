@@ -130,12 +130,12 @@ export default function Rooms() {
                             <th>刪改</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="">
                         {rooms.map((room) => {
                             const isRowEditing = editingRowId === room.id;
                         
                             return (
-                                <tr key={room.id} className="h-12">
+                                <tr key={room.id} className="h-12 hover:bg-green-50">
                                     <td className="border-t border-admin-gray">{room.id}</td>
                                     <td className="border-t border-admin-gray">
                                         {isRowEditing ?

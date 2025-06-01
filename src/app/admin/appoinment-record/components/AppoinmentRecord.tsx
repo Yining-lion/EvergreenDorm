@@ -59,7 +59,7 @@ export default function AppoinmentRecord() {
                             const recordedTime = appoinmentRecord.recordedAt.toDate();
                         
                             return (
-                                <tr key={appoinmentRecord.uid} className="h-12">
+                                <tr key={appoinmentRecord.uid} className="h-12 hover:bg-green-50">
                                     
                                                                  
                                     <td className="border-t border-admin-gray">

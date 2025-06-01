@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => { // Firebase 的 onAuthStateChanged() 方法會回傳一個函式，這個函式的用途是拿來取消這個監聽器
       if (firebaseUser) {
-        const docRef = doc(db, "members", firebaseUser.uid);
+        const docRef = doc(db, "members", firebaseUser.uid); // 取得 members 資料表該會員之資料
         const docSnap = await getDoc(docRef);
 
         let role: "member" | "admin" = "member";

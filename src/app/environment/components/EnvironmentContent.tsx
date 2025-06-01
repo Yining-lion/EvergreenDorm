@@ -107,6 +107,17 @@ export default function EnvironmentContent() {
                     <Modal isOpen={!!currentFacility} onClose={closeModal}>
                         {currentFacility && (
                             <div className="relative w-full h-full flex justify-center items-center">
+
+                                {/* 左右半屏點擊區 (透明，負責切換) */}
+                                <div
+                                onClick={showPrevImage}
+                                className="absolute left-0 top-0 h-full w-1/2 cursor-pointer z-10"
+                                />
+                                <div
+                                onClick={showNextImage}
+                                className="absolute right-0 top-0 h-full w-1/2 cursor-pointer z-10"
+                                />
+
                                 {/* 圖片區 */}
                                 <div className="relative w-full h-full">
                                     <Image
@@ -115,6 +126,11 @@ export default function EnvironmentContent() {
                                     fill
                                     className="object-contain"
                                     />
+
+                                    {/* 左上角張數指示 */}
+                                    <div className="absolute top-4 left-4 text-white text-lg font-semibold z-11">
+                                    {currentImageIndex + 1} / {currentFacility.images.length}
+                                    </div>
 
                                     {/* 左箭頭 */}
                                     <button

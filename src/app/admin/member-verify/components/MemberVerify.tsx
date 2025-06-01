@@ -87,7 +87,7 @@ export default function MemberVerify() {
                         {pendingUsers.map((pendingUser) => {
                         
                             return (
-                                <tr key={pendingUser.uid} className="h-12">
+                                <tr key={pendingUser.uid} className="h-12 hover:bg-green-50">
                                     
                                                                  
                                     <td className="border-t border-admin-gray">

@@ -106,7 +106,7 @@ export default function MemberInfo() {
                             const isRowEditing = editingRowId === member.uid;
                      
                             return (
-                                <tr key={member.uid} className="h-12">
+                                <tr key={member.uid} className="h-12 hover:bg-green-50">
                                     
                                     <td className="border-t border-admin-gray">
                                         {isRowEditing ?

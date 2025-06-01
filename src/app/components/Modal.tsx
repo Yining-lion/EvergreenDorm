@@ -35,7 +35,7 @@ export default function Modal({ isOpen, onClose, children, position = "center" }
                   )}>
                 <button
                 onClick={onClose}
-                className={classNames("absolute font-bold top-4 right-4 cursor-pointer z-6",
+                className={classNames("absolute font-bold top-4 right-4 cursor-pointer z-20",
                 position === "center" && "text-white hover:text-gray-300 text-2xl",
                 position === "top" && "text-gray-600 hover:text-black text-xl"
                 )}>

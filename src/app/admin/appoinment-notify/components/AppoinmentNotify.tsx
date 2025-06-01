@@ -82,7 +82,7 @@ export default function AppoinmentNotify() {
                             const createdTime = appoinment.createdAt.toDate();
                         
                             return (
-                                <tr key={appoinment.uid} className="h-12">
+                                <tr key={appoinment.uid} className="h-12 hover:bg-green-50">
                                     
                                                                  
                                     <td className="border-t border-admin-gray">
