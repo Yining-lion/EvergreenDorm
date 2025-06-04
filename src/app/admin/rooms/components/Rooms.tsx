@@ -115,7 +115,7 @@ export default function Rooms() {
             alt="add" 
             className="size-10 cursor-pointer mb-2 mr-5"
             onClick={addRoom}
-            ></img>
+            />
             <div className="bg-white w-full">
                 <table className="w-full text-gray-700 text-center ">
                     <thead>

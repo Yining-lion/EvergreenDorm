@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./authContext";
-import LoadingSpinner from "../components/LoadingSpinner ";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const router = useRouter();

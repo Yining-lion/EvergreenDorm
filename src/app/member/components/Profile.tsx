@@ -200,7 +200,7 @@ export default function Profile () {
                             上傳圖片
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    accept=".jpg, .jpeg, .png"
                                     className="hidden"
                                     onChange={handleImageChange}
                                 />

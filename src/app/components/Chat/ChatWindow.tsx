@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import { useMessages } from "@/app/hooks/useMessages";
-import LoadingSpinner from "../LoadingSpinner ";
+import LoadingSpinner from "../LoadingSpinner";
 import dayjs from "dayjs";
 
 type messageProps = {

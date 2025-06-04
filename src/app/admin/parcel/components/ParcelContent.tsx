@@ -1,8 +1,11 @@
 "use client";
 
-import { getDocs, collection} from "firebase/firestore";
+import { getDocs, collection, addDoc, serverTimestamp} from "firebase/firestore";
 import { useState, useEffect, useMemo } from "react";
 import { db } from "@/app/lib/firebase";
+import { useAuth } from "@/app/auth/authContext";
+import { useChatRooms } from "@/app/hooks/useChatRooms";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 type Member = {
     uid: string,
@@ -11,8 +14,15 @@ type Member = {
 };
 
 export default function ParcelContent () {
+    const { user, loading } = useAuth();
     const [members, setMembers] = useState<Member[]>([]);
     const [search, setSearch] = useState("");
+    const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+    const [text, setText] = useState<string>("有包裹哦！");
+    const [sending, setSending] = useState(false);
+
+    // 取得 private 聊天室清單 
+    const privateRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
 
     useEffect(() => {
             const fetchData = async () => {
@@ -24,7 +34,7 @@ export default function ParcelContent () {
                     fetchedData.push({
                         uid: doc.id, 
                         name: data.name,
-                        roomNumber: data.roomNumber || [],
+                        roomNumber: data.roomNumber,
                     });
                 });
 
@@ -33,17 +43,85 @@ export default function ParcelContent () {
             fetchData();
         },[])
 
-    // useMemo 用來記憶計算結果
-        const filtered = useMemo(() => {
-            const kw = search.trim().toLowerCase();
-            return members.filter((member) =>
-                member.name.toLowerCase().includes(kw) ||
-                member.roomNumber.toLowerCase().includes(kw)
+    // 同步進行搜尋
+    const filtered = useMemo(() => {
+        const kw = search.trim().toLowerCase();
+        return members.filter((member) =>
+            member.name.toLowerCase().includes(kw) ||
+            member.roomNumber.toLowerCase().includes(kw)
+        );
+    }, [search, members]);
+
+    const handleCheckboxChange = (member: Member, checked: boolean) => {
+        if (checked) {
+            setSelectedMembers((prev) => [...prev, member]);
+        } else {
+            setSelectedMembers((prev) =>
+                prev.filter((m) => m.uid !== member.uid)
             );
-        }, [search, members]);
+        }
+    };
+
+    const isSelected = (uid: string) => {
+        return selectedMembers.some((m) => m.uid === uid);
+    };
+
+    // 同步更新預覽訊息內容
+    const wholeMessages = useMemo(() => {
+        return selectedMembers.map((member) => `${member.name}： ${text}`);
+    }, [selectedMembers, text]);
+
+    const handleSendMessage = () => {
+        if (!text) {
+            alert("請輸入訊息內容");
+            return;
+        }
+
+        if (selectedMembers.length === 0) {
+            alert("請選擇要通知的對象");
+            return;
+        }
+
+        setSending(true);
+        
+        try {
+
+            selectedMembers.forEach( async (member) => {
+                const room = privateRooms.find(
+                (r) => r.members?.[0] === member.uid
+            );
+            if (!room) {
+                console.warn(`找不到 ${member.name} 的 private 聊天室`);
+                return null;
+            }
+
+            const message = `${member.name}： ${text}`
+
+            await addDoc(collection(db, "chatRooms", room.id, "messages"), {
+                senderId: user?.uid,
+                content: message,
+                createdAt: serverTimestamp(),
+                localTimestamp: Date.now(), // 暫時時間：本地產生，避免因 serverTimestamp() 非同步產生導致時間 undefined 而報錯
+            });
+
+            alert("訊息已成功發送！");
+            setSelectedMembers([]);
+            })
+            
+        } catch (err) {
+            console.error("發送失敗：", err);
+            alert("發送失敗，請稍後再試");
+
+        } finally {
+            setSending(false);
+        }
+    };
+
+    if (loading || !user) return <LoadingSpinner/>;
 
     return (
         <div className="flex flex-col items-end">
+            {/* 搜尋框 */}
             <input
             type="text"
             placeholder="輸入房號或姓名"
@@ -52,6 +130,7 @@ export default function ParcelContent () {
             className="mb-4 p-2 bg-white focus:outline-0"
             />
             
+            {/* 會員列表 */}
             <div className="bg-white w-full">
                 <table className="w-full text-gray-700 text-center ">
                     <thead>
@@ -63,9 +142,14 @@ export default function ParcelContent () {
                     </thead>
                     <tbody>
                         {filtered.map((member) => {
-                        
+                            const selected = isSelected(member.uid);
+
                             return (
-                                <tr key={member.uid} className="h-12 hover:bg-green-50">
+                                <tr 
+                                key={member.uid} 
+                                className="h-12 hover:bg-green-50 cursor-pointer"
+                                onClick={() => handleCheckboxChange(member, !selected)}
+                                >
                                                                  
                                     <td className="border-t border-admin-gray">
                                         <p>{member.roomNumber}</p>
@@ -73,14 +157,54 @@ export default function ParcelContent () {
                                     <td className="border-t border-admin-gray">
                                         <p>{member.name}</p>
                                     </td>
-                                    <td className="border-t border-admin-gray">
-                                        <input type="checkbox"></input>
+                                    <td 
+                                    className="border-t border-admin-gray"
+                                    onClick={(e) => e.stopPropagation()} // 避免點到 checkbox 同時觸發整列 onClick
+                                    >
+                                        <input 
+                                        type="checkbox"
+                                        checked={selected}
+                                        onChange={(e) => {handleCheckboxChange(member, e.target.checked)}}
+                                        className="size-5"
+                                        ></input>
                                     </td>
                                     
                                 </tr>
                         )})}
                     </tbody>
                 </table>
+            </div>
+
+            {/* 預覽及發送訊息區塊 */}
+            <div className="mt-10 w-full bg-white p-4">
+                <h2 className="text-lg font-semibold mb-2 text-gray-800">群發訊息內容：</h2>
+                <input
+                className="w-full p-2 border border-gray-300 text-gray"
+                placeholder="輸入要通知的訊息內容"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                />
+
+                <h2 className="text-lg font-semibold my-2 mt-8 text-gray-800">預覽訊息內容：</h2>
+                {selectedMembers.length > 0 ? (
+                    <ol className="list-decimal pl-5 text-gray">
+                        {wholeMessages.map((wholeMessage) => (
+                            <li key={wholeMessage}>
+                                {wholeMessage}
+                            </li>
+                        ))}
+                    </ol>
+                ) : (
+                    <p className="text-gray">尚未選擇任何成員</p>
+                )}
+
+                <button
+                    onClick={handleSendMessage}
+                    disabled={sending}
+                    className="bg-primary-green hover:bg-green-700 text-white px-4 py-2 mt-4 disabled:opacity-50 cursor-pointer"
+                >
+                    {sending ? "發送中..." : "發送訊息"}
+                </button>
             </div>
         </div>
     );

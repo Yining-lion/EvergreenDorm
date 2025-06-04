@@ -5,7 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { storage, db } from "@/app/lib/firebase";
 import { useAuth } from "@/app/auth/authContext";
 import { useChatRooms } from "@/app/hooks/useChatRooms";
-import LoadingSpinner from "@/app/components/LoadingSpinner ";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 import ChatInput from "@/app/components/Chat/ChatInput";
 import ChatWindow from "@/app/components/Chat/ChatWindow";
 

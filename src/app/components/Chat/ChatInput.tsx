@@ -106,7 +106,7 @@ export default function ChatInput({roomId, userId, storage}: ChatInputProps) {
             <img src="/icons/chat/Plus.svg" className="size-6" alt="upload" />
             <input
               type="file"
-              accept="image/*"
+              accept=".jpg, .jpeg, .png"
               onChange={handleFileChange}
               className="absolute inset-0 opacity-0"
           />
@@ -119,8 +119,6 @@ export default function ChatInput({roomId, userId, storage}: ChatInputProps) {
             <img src="/icons/chat/Sent.svg" className="size-6" alt="Sent"></img>
           </button>
       </div>
-    </div>
-
-                
+    </div>    
   );
 }
