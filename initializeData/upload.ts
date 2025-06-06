@@ -267,8 +267,8 @@ async function uploadJsonWithType(jsonFileName: string) {
   const { type, data } = parsed;
 
   switch (type) {
-    case "faq":
-      await uploadFAQ(data, jsonFileName);
+    case "activity":
+      await uploadActivity(data, jsonFileName);
       break;
     default:
       console.warn(`不支援的 type: ${type}（檔案: ${jsonFileName}）`);

@@ -1,7 +1,7 @@
 import HeaderAdmin from "@/app/admin/components/HeaderAdmin";
 import Sidebar from "@/app/admin/components/Sidebar";
 import AdminRouter from "@/app/auth/AdminRoute"
-import ImageEditPage from "./ImageEditPage";
+import FacilityImageEditPage from "./FacilityImageEditPage";
 
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
         <div className="flex">
           <Sidebar />
           <div className="bg-admin-gray w-full p-10">
-            <ImageEditPage />
+            <FacilityImageEditPage />
           </div>
         </div>
       </div>

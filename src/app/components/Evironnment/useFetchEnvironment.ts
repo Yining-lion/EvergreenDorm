@@ -1,16 +1,20 @@
 "use client";
 
-
 import { useEffect, useState } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
 
 export type Facility = {
     uid: string;
-    title: string;
+    category: string;
     description: string;
-    images: { title: string; url: string }[];
+    images: FacilityImage[];
 };
+
+export type FacilityImage = {
+  url: string;
+  title: string;
+}
 
 export default function useFetchEnvironment() {
     const [facilities, setFacilities] = useState<Facility[]>([]);
@@ -26,7 +30,7 @@ export default function useFetchEnvironment() {
                 const data = doc.data();
                 fetchedData.push({
                     uid: doc.id,
-                    title: data.category,
+                    category: data.category,
                     description: data.description,
                     images: data.images || [],
                 });

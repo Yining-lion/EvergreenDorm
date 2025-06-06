@@ -8,9 +8,9 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { handleImageChange } from "@/app/lib/handleImageChange";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
-export default function AddImagePage() {
+export default function AddActivityImagePage() {
   const router = useRouter();
-  const { facilityId } = useParams();
+  const { activityId } = useParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [category, setCategory] = useState<string>();
@@ -21,7 +21,7 @@ export default function AddImagePage() {
 
   useEffect(() => {
     const fetchCategory = async () => {
-      const docRef = doc(db, "environment", facilityId as string);
+      const docRef = doc(db, "activity", activityId as string);
       const snapshot = await getDoc(docRef);
       if (snapshot.exists()) {
         setCategory(snapshot.data().category);
@@ -29,7 +29,7 @@ export default function AddImagePage() {
       setIsLoading(false);
     };
     fetchCategory();
-  }, [facilityId]);
+  }, [activityId]);
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleImageChange(e, {
@@ -42,18 +42,24 @@ export default function AddImagePage() {
   };
 
   const handleAdd = async () => {
-    if (!file) alert("請選擇圖片");
-    if (!title) alert("請填寫圖片簡述");
-    if (!file || !auth.currentUser || !category) return;
+    if (!file) {
+        alert("請選擇圖片");
+        return;
+    }
+    if (!title || !category) {
+        alert("請填寫完整資訊");
+        return;
+    }
+    if (!auth.currentUser) return;
 
     // 上傳圖片
     const fileName = `${Date.now()}.jpg`;
-    const storageRef = ref(storage, `environment/${category}/${fileName}`);
+    const storageRef = ref(storage, `activity/${category}/${fileName}`);
     await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(storageRef);
 
     // 將圖片資料加入 Firestore
-    const docRef = doc(db, "environment", facilityId as string);
+    const docRef = doc(db, "activity", activityId as string);
     const snapshot = await getDoc(docRef);
     const data = snapshot.data();
     const existingImages = data?.images || [];
@@ -72,12 +78,12 @@ export default function AddImagePage() {
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <p className="text-gray mb-4">
-        <span className="cursor-pointer hover:underline" onClick={() => router.push("/admin/frontend-environment")}>
-          環境介紹
+        <span className="cursor-pointer hover:underline" onClick={() => router.push("/admin/frontend-activity")}>
+          新增影像
         </span>
-        / <span className="cursor-pointer hover:underline" onClick={() => router.push(`/admin/frontend-environment/${facilityId}`)}>
+        / <span className="cursor-pointer hover:underline" onClick={() => router.push(`/admin/frontend-activity/${activityId}`)}>
           {category}
-        </span> / 新增圖片
+        </span> / 新增
       </p>
 
       <div className="flex flex-col items-start gap-4">

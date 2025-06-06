@@ -8,7 +8,7 @@ import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { handleImageChange } from "@/app/lib/handleImageChange";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function ImageEditPage() {
+export default function FacilityImageEditPage() {
     const router = useRouter();
     const user = auth.currentUser;
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -38,6 +38,7 @@ export default function ImageEditPage() {
         // 下載圖片 URL
         const downloadURL = await getDownloadURL(storageRef);
         setPhotoURL(downloadURL);
+        return downloadURL;
     } 
 
     const handleUpdate = async () => {
@@ -49,7 +50,12 @@ export default function ImageEditPage() {
             return;
         }
 
-        if (file) await uploadImage();
+        // 使用者若沒上傳圖片檔案 用預設值
+        let uploadedPhotoURL= photoURL;
+
+        if (file) {
+            uploadedPhotoURL = await uploadImage();
+        }
 
         const docRef = doc(db, "environment", facilityId as string);
         const snapshot = await getDoc(docRef);
@@ -60,7 +66,7 @@ export default function ImageEditPage() {
         images[Number(imageIndex)] = {
         ...images[Number(imageIndex)],
         title: newTitle,
-        url: photoURL,
+        url: uploadedPhotoURL,
     };
 
     await updateDoc(docRef, { images });
@@ -95,8 +101,9 @@ export default function ImageEditPage() {
         <div className="p-6 max-w-3xl mx-auto">
             <p className="text-gray mb-4">
                 <span className="cursor-pointer hover:underline" onClick={() => router.push("/admin/frontend-environment")}>環境介紹</span>
-                / <span className="cursor-pointer hover:underline" onClick={() => router.push(`/admin/frontend-environment/${facilityId}`)}>{category} </span>
-                / 修改
+                / <span className="cursor-pointer hover:underline" onClick={() => router.push(`/admin/frontend-environment/${facilityId}`)}>
+                    {category} 
+                </span> / 修改
             </p>
 
             <div className="flex flex-col items-start gap-4">

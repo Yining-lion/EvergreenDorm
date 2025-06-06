@@ -33,7 +33,6 @@ export default function EnvironmentContent() {
     };
 
    if (loading) return <LoadingSpinner/>
-
     
     return (
         <SectionLayout title="環境介紹">

@@ -1,29 +1,29 @@
 // components/environment/FacilityModal.tsx
 import Image from "next/image";
 import Modal from "@/app/components/Modal";
-import { Facility } from "./useFetchEnvironment";
+import { Activity } from '@/app/components/Activity/useFetchActivity';
 
 type Props  = {
-  facility: Facility | null;
+  activity: Activity | null;
   currentImageIndex: number;
   onClose: () => void;
   onNext: () => void;
   onPrev: () => void;
 }
 
-export default function FacilityModal({
-  facility,
+export default function ActivityModal({
+  activity,
   currentImageIndex,
   onClose,
   onNext,
   onPrev,
 }: Props) {
-  if (!facility) return null;
+  if (!activity) return null;
 
-  const image = facility.images[currentImageIndex];
+  const image = activity.images[currentImageIndex];
 
   return (
-    <Modal isOpen={!!facility} onClose={onClose}>
+    <Modal isOpen={!!activity} onClose={onClose}>
         <div className="relative w-full h-full flex justify-center items-center">
 
             {/* 左右半屏點擊區 (透明，負責切換) */}
@@ -41,7 +41,7 @@ export default function FacilityModal({
 
                 {/* 左上角張數 */}
                 <div className="absolute top-4 left-4 text-white text-lg font-semibold z-11">
-                    {currentImageIndex + 1} / {facility.images.length}
+                    {currentImageIndex + 1} / {activity.images.length}
                 </div>
 
                 {/* 左箭頭 */}

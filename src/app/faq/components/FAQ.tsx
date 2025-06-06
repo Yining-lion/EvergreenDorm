@@ -1,14 +1,9 @@
 "use client";
 
 import SectionLayout from '@/app/components/SectionLayout';
-import { useEffect, useState } from 'react';
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "@/app/lib/firebase";
-
-type FAQ = {
-  category: string;
-  descriptions: { question: string; answer: string }[];
-};
+import { useState } from 'react';
+import useFetchFAQ from '@/app/components/FAQ/useFetchFAQ';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 const tabs = [
     { label: "設備與使用", icon: "/icons/FAQ/Wrench.svg", iconHover: "/icons/FAQ/Wrench-1.svg"},
@@ -20,28 +15,12 @@ const tabs = [
 type TabLabel = typeof tabs[number]["label"];
 
 export default function FAQContent() {
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const { faqs, loading } = useFetchFAQ();
   const [activeTab, setActiveTab] = useState<TabLabel>("設備與使用");
 
-  useEffect(() => {
-      async function fetchData() {
-          const q = query(collection(db, "faq"));
-          const querySnapshot = await getDocs(q);
-          const fetchedData: FAQ[] = [];
+  const activeFaq = faqs.find((faq) => faq.category === activeTab);
 
-          querySnapshot.forEach((doc) => {
-              const data = doc.data();
-              fetchedData.push({
-                  category: data.category,
-                  descriptions: data.descriptions || [],
-              });
-          });
-
-          setFaqs(fetchedData);
-      }
-
-      fetchData();
-  }, []);
+  if (loading) return <LoadingSpinner/>
 
   return (
   <SectionLayout title="住宿QA">
@@ -62,28 +41,20 @@ export default function FAQContent() {
       </div>
 
       <div className="space-y-4 max-w-2xl mx-auto">
-        {faqs.map((faq) => 
-          {
-            const currentFaq = faq.category === activeTab;
+        {activeFaq?.descriptions.map((description) => (
+            <details
+            key={description.question}
+            className="group bg-white rounded-lg p-4 transition-all duration-200 shadow-[var(--shadow-black)] 
+                      hover:shadow-[var(--shadow-primary-green)] open:shadow-[var(--shadow-primary-green)]"
+            >
+                <summary className="cursor-pointer text-lg font-medium flex items-center">
+                      <span className="transition-transform duration-200 group-open:rotate-90 mr-3">▶</span>
+                      {description.question}
+                  </summary>
+                <div className="mt-3 whitespace-pre-wrap">{description.answer}</div>
 
-            return (
-               currentFaq && faq.descriptions.map((description) => (
-                  <details
-                  key={description.question}
-                  className="group bg-white rounded-lg p-4 transition-all duration-200 shadow-[var(--shadow-black)] 
-                            hover:shadow-[var(--shadow-primary-green)] open:shadow-[var(--shadow-primary-green)]"
-                  >
-                      <summary className="cursor-pointer text-lg font-medium flex items-center">
-                            <span className="transition-transform duration-200 group-open:rotate-90 mr-3">▶</span>
-                            {description.question}
-                        </summary>
-                      <div className="mt-3 whitespace-pre-wrap">{description.answer}</div>
-
-                  </details>
-              ))
-            )
-          }
-        )}
+            </details>
+        ))}
       </div>
   </SectionLayout>
   );

@@ -36,7 +36,7 @@ export default function FrontendEnvironment () {
             const docRef = doc(db, "environment", facilityId)
       
             await updateDoc(docRef, {
-                category: facility.title,
+                category: facility.category,
                 description: facility.description,
                 images: facility.images,
                 updatedAt: new Date()

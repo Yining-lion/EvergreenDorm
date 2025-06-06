@@ -113,7 +113,7 @@ export default function Rooms() {
             <img 
             src="/icons/admin/Joyent.svg" 
             alt="add" 
-            className="size-10 cursor-pointer mb-2 mr-5"
+            className="size-12 cursor-pointer mb-2 mr-5"
             onClick={addRoom}
             />
             <div className="bg-white w-full">

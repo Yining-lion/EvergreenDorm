@@ -1,7 +1,7 @@
-import HeaderAdmin from "@/app/admin/components/HeaderAdmin";
-import Sidebar from "@/app/admin/components/Sidebar";
+import HeaderAdmin from "../../components/HeaderAdmin";
+import Sidebar from "../../components/Sidebar";
 import AdminRouter from "@/app/auth/AdminRoute"
-import AddFacilityImagePage from "./AddFacilityImagePage";
+import ActivityDetailPage from "./ActivityDetailPage";
 
 
 export default function Home() {
@@ -12,10 +12,11 @@ export default function Home() {
         <div className="flex">
           <Sidebar />
           <div className="bg-admin-gray w-full p-10">
-            <AddFacilityImagePage />
+            <ActivityDetailPage />
           </div>
         </div>
       </div>
     </AdminRouter>
+
   );
 }
