@@ -36,7 +36,7 @@ export default function EditQuestionPage() {
     fetchCategory();
   }, [faqId]);
 
-  const handleAdd = async () => {
+  const handleUpdate = async () => {
     if (!question.trim() || !answer.trim()) {
         alert("請填寫完整資訊");
         return;
@@ -89,13 +89,13 @@ export default function EditQuestionPage() {
         <textarea
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
-          className="w-full p-2 text-gray bg-white"
+          className="w-full p-2 text-gray bg-white resize-none"
           rows={5}
           required
         />
         
         <button
-          onClick={handleAdd}
+          onClick={handleUpdate}
           className="bg-primary-green hover:bg-green-700 text-white px-4 py-2 mt-4 w-30 disabled:opacity-50 cursor-pointer"
         >
           修改

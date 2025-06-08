@@ -1,39 +1,13 @@
 "use client";
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "@/app/lib/firebase";
-
-type Sister = {
-  name: string;
-  description: string;
-  photoURL: string;
-};
+import { useFetchAboutSister } from '@/app/components/Church/useFetchChurch';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 export default function AboutSister() {
-  const [sisters, setSisters] = useState<Sister[]>([]);
-
-  useEffect(() => {
-            async function fetchData() {
-                const q = query(collection(db, "aboutSister"));
-                const querySnapshot = await getDocs(q);
-                const fetchedData: Sister[] = [];
-      
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    fetchedData.push({
-                        name: data.category,
-                        description: data.description,
-                        photoURL: data.photoURL
-                    });
-                });
-      
-                setSisters(fetchedData);
-            }
-      
-            fetchData();
-  }, []);
+  const { sisters, loading } = useFetchAboutSister();
+  
+      if (loading) return <LoadingSpinner />
 
   return (  
     <div className="space-y-8 max-w-3xl mx-auto">

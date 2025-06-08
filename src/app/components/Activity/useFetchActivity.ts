@@ -11,8 +11,8 @@ export type Activity = {
 };
 
 export type ActivityImage = {
-  url: string;
-  title: string;
+    url: string;
+    title: string;
 }
 
 export default function useFetchActivity() {
