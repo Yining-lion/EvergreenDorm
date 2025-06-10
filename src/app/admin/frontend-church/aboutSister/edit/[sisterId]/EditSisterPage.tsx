@@ -8,17 +8,16 @@ import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { handleImageChange } from "@/app/lib/handleImageChange";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function ActivityImageEditPage() {
+export default function EditSisterPage() {
     const router = useRouter();
-    const user = auth.currentUser;
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { activityId, imageIndex } = useParams();
-    const [category, setCategory] = useState<string>();
-    const [newTitle, setNewTitle] = useState("");
+
+    const { sisterId } = useParams();
+    const [name, setName] = useState<string>();
+    const [description, setDescription] = useState("");
     const [photoURL, setPhotoURL] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [file, setFile] = useState<File | null>(null);
-    
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         handleImageChange(e, {
@@ -31,9 +30,9 @@ export default function ActivityImageEditPage() {
     };
 
     const uploadImage = async () => {
-        if (!file || !user) return null;
+        if (!file) return null;
         // 上傳至 firebase storage
-        const storageRef = ref(storage, `activity/${category}/${Date.now()}.jpg`);
+        const storageRef = ref(storage, `aboutSister/${Date.now()}.jpg`);
         await uploadBytes(storageRef, file);
         // 下載圖片 URL
         const downloadURL = await getDownloadURL(storageRef);
@@ -42,70 +41,63 @@ export default function ActivityImageEditPage() {
     } 
 
     const handleUpdate = async () => {
-        if (!newTitle) alert("請填寫圖片簡述");
+        
+        if (!name || !description) alert("請填寫完整資訊");
 
-        if (!user) {
-            router.push("/login");
-            return;
-        }
+        if (!auth.currentUser) return;
 
         // 使用者若沒上傳圖片檔案 用預設值
-        let uploadedPhotoURL= photoURL;
+        let uploadedPhotoURL = photoURL;
 
         if (file) {
             uploadedPhotoURL = await uploadImage();
         }
 
-        const docRef = doc(db, "activity", activityId as string);
+        const docRef = doc(db, "aboutSister", sisterId as string);
         const snapshot = await getDoc(docRef);
         if (!snapshot.exists()) return;
 
-        const data = snapshot.data();
-        const images = data.images || [];
-        images[Number(imageIndex)] = {
-            ...images[Number(imageIndex)],
-            title: newTitle,
-            url: uploadedPhotoURL,
-        };
+         await updateDoc(docRef, {
+            name,
+            description,
+            photoURL: uploadedPhotoURL,
+            updatedAt: new Date()
+        });
 
-        await updateDoc(docRef, { images });
         alert("更新成功！");
         router.back();
     };
 
     useEffect(() => {
         const fetchImage = async () => {
-                const docRef = doc(db, "activity", activityId as string);
-                const snapshot = await getDoc(docRef);
-                if (!snapshot.exists()) return;
+            const docRef = doc(db, "aboutSister", sisterId as string);
+            const snapshot = await getDoc(docRef);
+            if (!snapshot.exists()) return;
 
-                const data = snapshot.data();
-                const category = data.category;
-                setCategory(category);
-
-                const image = data.images?.[Number(imageIndex)];
-                if (image) {
-                    setNewTitle(image.title || "");
-                    setPhotoURL(image.url || "");
-                }
+            const data = snapshot.data();
+            setName(data.name);
+            setDescription(data.description);
+            setPhotoURL(data.photoURL);
             setIsLoading(false);
         };
 
         fetchImage();
-    }, [activityId, imageIndex]);
+    }, [sisterId]);
 
   if (isLoading) return <LoadingSpinner/>;
 
     return (
         <div className="p-6 max-w-3xl mx-auto">
             <p className="text-gray mb-4">
-                <span className="cursor-pointer hover:underline" onClick={() => router.push("/admin/frontend-activity")}>新增影像</span>
-                / <span className="cursor-pointer hover:underline" onClick={() => router.push(`/admin/frontend-activity/${activityId}`)}>
-                    {category}
+                <span className="cursor-pointer hover:underline" onClick={() => router.push("/admin/frontend-church")}>
+                修會介紹
+                </span>
+                / <span className="cursor-pointer hover:underline" onClick={() => router.push("/admin/frontend-church/aboutSister")}>
+                    關於修女
                 </span> / 修改
             </p>
 
-            <div className="flex flex-col items-start gap-4">
+            <div className="flex flex-col items-start gap-4">     
             <img src={photoURL ?? ""} alt="preview" className="w-64 h-64 object-cover bg-gray-200" />
             <div>
                 <button 
@@ -121,12 +113,22 @@ export default function ActivityImageEditPage() {
                 />
             </div>
 
-
-            <label className="mt-4 text-gray">圖片簡述：</label>
+            <label className="mt-4 text-gray">姓名：</label>
             <input
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
-                className="w-full p-2 text-gray bg-white "
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full p-2 text-gray bg-white"
+            required
+            />
+
+            <label className="mt-4 text-gray">內容：</label>
+            <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 text-gray bg-white resize-none"
+            rows={8}
+            required
             />
 
             <button

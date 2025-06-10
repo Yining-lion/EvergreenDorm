@@ -24,6 +24,18 @@ input:-webkit-autofill {
   box-shadow: 0 0 0px 1000px #FDE8E5 inset !important;
 }
 
+/* 移除 Chrome / Safari 的上下箭頭 */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 移除 Firefox 的上下箭頭 */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 body {
   position: relative;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
 
 export type ChurchContent = {
@@ -52,7 +52,7 @@ export function useFetchAboutSister() {
   
     useEffect(() => {
             async function fetchData() {
-                const q = query(collection(db, "aboutSister"));
+                const q = query(collection(db, "aboutSister"), orderBy("createdAt", "asc"));
                 const querySnapshot = await getDocs(q);
                 const fetchedData: Sister[] = [];
         
@@ -60,7 +60,7 @@ export function useFetchAboutSister() {
                     const data = doc.data();
                     fetchedData.push({
                         uid: doc.id,
-                        name: data.category,
+                        name: data.name,
                         description: data.description,
                         photoURL: data.photoURL
                     });

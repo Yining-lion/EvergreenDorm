@@ -1,44 +1,43 @@
 import Image from "next/image";
-import { Facility } from "./useFetchEnvironment";
 import { useRouter } from "next/navigation";
+import { Sister } from "./useFetchChurch";
 
 type Props = {
-  facilities: Facility[];
-  onOpen?: (facility: Facility, imageIndex: number) => void;
-  onEdit?: (facility: Facility) => void;
-  onChange?: (facilityId: string, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  sisters: Sister[];
+  onOpen?: boolean
+  onEdit?: (sister: Sister) => void;
+  onChange?: (sisterId: string, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onDelete?: (sisterId: string, sisterName: string) => void;
   editingId?: string | null;
-  updateFacility?: (facilityId: string) => void;
+  updateSister?: (sisterId: string) => void;
 };
 
-export default function FacilityCard({ facilities, onOpen, onEdit,  onChange, editingId, updateFacility}: Props) {
+export default function SisterCard({ sisters, onOpen, onEdit, onChange, onDelete, editingId, updateSister}: Props) {
     const router = useRouter();
-    if (!facilities || facilities.length === 0) return null;
+    if (!sisters || sisters.length === 0) return null;
   
     return (
-        <div className="space-y-8 text-gray">
-            {facilities.map((facility, index) => {
+        <div className="space-y-8 max-w-3xl mx-auto text-gray">
+            {sisters.map((sister, index) => {
                 const imagePosition = index % 2 === 0 ? "left" : "right";
-                const imageUrl = facility.images[0]?.url
-                const isEditing = editingId === facility.uid;
+                const imageUrl = sister.photoURL
+                const isEditing = editingId === sister.uid;
                 return (
-                    <div className="flex" key={facility.uid}>
+                    <div className="flex" key={sister.uid}>
                         <div
                         className="bg-white shadow-[var(--shadow-black)] rounded-xs p-4 flex flex-col w-full md:flex-row items-center md:items-start md:justify-between gap-4"
                         >
                         {imagePosition === 'left' && (
-                            <div className="relative w-full md:w-1/2 h-52 cursor-pointer">
+                            <div className={`relative w-full md:w-1/2 h-52 ${onOpen ? "cursor-pointer" : ""}`}>
                                 {/* <Image fill /> 代表「 absolute 絕對定位」填滿它的父層，所以父層要使用 relative */}
                                 <Image
                                     src={imageUrl}
-                                    alt={facility.category}
+                                    alt={sister.name}
                                     fill
                                     className="object-cover"
                                     onClick={() => {
                                         if (onOpen) {
-                                            onOpen(facility, 0);
-                                        } else {
-                                            router.push(`/admin/frontend-environment/${facility.uid}`);
+                                            router.push(`/admin/frontend-church/aboutSister/edit/${sister.uid}`);
                                         }
                                     }}
                                 />
@@ -47,13 +46,13 @@ export default function FacilityCard({ facilities, onOpen, onEdit,  onChange, ed
                         <div className="w-full md:w-1/2 text-left relative">
                             { isEditing ? 
                             (<input 
-                                name="category"
-                                value={facility.category}
+                                name="name"
+                                value={sister.name}
                                 className="bg-admin-gray w-full text-xl px-2"
-                                onChange={(e) => onChange?.(facility.uid, e)}
+                                onChange={(e) => onChange?.(sister.uid, e)}
                                 required
                             />) : 
-                            (<h3 className="text-xl mb-2">{facility.category}</h3>)
+                            (<h3 className="text-xl mb-2">{sister.name}</h3>)
                             }
                             
                             <hr className="border-t border-gray-300 mb-2" />
@@ -61,27 +60,25 @@ export default function FacilityCard({ facilities, onOpen, onEdit,  onChange, ed
                             { isEditing ? 
                             (<textarea
                                 name="description"
-                                value={facility.description}
+                                value={sister.description}
                                 className="bg-admin-gray w-full h-40 resize-none p-2"
-                                onChange={(e) => onChange?.(facility.uid, e)}
+                                onChange={(e) => onChange?.(sister.uid, e)}
                                 required
                             />) : 
-                            (<p className="text">{facility.description}</p>)
+                            (<p className="text">{sister.description}</p>)
                             }
 
                         </div>
                         {imagePosition === 'right' && (
-                            <div className="relative w-full md:w-1/2 h-52 cursor-pointer">
+                            <div className={`relative w-full md:w-1/2 h-52 ${onOpen ? "cursor-pointer" : ""}`}>
                                 <Image
                                     src={imageUrl}
-                                    alt={facility.category}
+                                    alt={sister.name}
                                     fill
                                     className="object-cover"
                                     onClick={() => {
                                         if (onOpen) {
-                                            onOpen(facility, 0);
-                                        } else {
-                                            router.push(`/admin/frontend-environment/${facility.uid}`);
+                                            router.push(`/admin/frontend-church/aboutSister/edit/${sister.uid}`);
                                         }
                                     }}
                                 />
@@ -95,10 +92,13 @@ export default function FacilityCard({ facilities, onOpen, onEdit,  onChange, ed
                                 alt="check" 
                                 className="size-10 cursor-pointer ml-2" 
                                 onClick={ async () => {
-                                    await updateFacility?.(facility.uid);
+                                    await updateSister?.(sister.uid);
                                     }}>
                                 </img>) :
-                                (<img src="/icons/admin/Edit.svg" alt="edit" className="size-7 cursor-pointer ml-2" onClick={() => onEdit?.(facility)}></img>)
+                                (<div className="flex flex-col items-center">
+                                    <img src="/icons/admin/Edit.svg" alt="edit" className="size-8 cursor-pointer ml-2" onClick={() => onEdit?.(sister)}></img>
+                                    <img src="/icons/admin/Delete.svg" alt="delete" className="size-8 cursor-pointer ml-2 mt-2" onClick={() => onDelete?.(sister.uid, sister.name)}></img>
+                                </div>)
                             )
                         }
                     </div>

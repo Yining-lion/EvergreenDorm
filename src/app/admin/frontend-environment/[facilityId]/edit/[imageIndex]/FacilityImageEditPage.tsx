@@ -41,8 +41,7 @@ export default function FacilityImageEditPage() {
         return downloadURL;
     } 
 
-    const handleUpdate = async () => {
-        if (!file) alert("請選擇圖片");
+    const handleUpdate = async () => {       
         if (!newTitle) alert("請填寫圖片簡述");
 
         if (!user) {

@@ -1,4 +1,3 @@
-// components/environment/FacilityModal.tsx
 import Image from "next/image";
 import Modal from "@/app/components/Modal";
 import { Facility } from "./useFetchEnvironment";

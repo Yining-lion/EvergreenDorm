@@ -3,37 +3,56 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Sidebar() {
     const path = usePathname();
     const [open, setOpen] = useState<Record<string, boolean>>({});
+    const [clickedByUser, setClickedByUser] = useState<Record<string, boolean>>({});
 
     // 在組件初次載入時，展開當前所屬的主選單
     useEffect(() => {
-        const matched = menu.find((item) =>
-            item.sub?.some((sub) => sub.path === path)
-        );
-        if (matched) {
+        let matchedTitle = "";
+        let maxLength = 0;
+
+        for (const item of menu) {
+            for (const sub of item.sub || []) {
+                if (path.startsWith(sub.path) && sub.path.length > maxLength) {
+                    matchedTitle = item.title;
+                    maxLength = sub.path.length;
+                }
+            }
+        }
+
+        if (matchedTitle) {
             setOpen((prev) => ({
-                ...prev,
-                [matched.title]: true,
+            ...prev,
+            [matchedTitle]: true,
             }));
         }
     }, [path]);
 
     const toggle = (title: string) => {
-        setOpen( (prev) => ({
+        setClickedByUser((prev) => ({
             ...prev,
-            [title]: !prev[title]
-        }))
-    }
+            [title]: true,
+        }));
+
+        setOpen(() => {
+            const newState: Record<string, boolean> = {};
+            menu.forEach((item) => {
+                newState[item.title] = item.title === title;
+            });
+            return newState;
+        });
+    };
 
     const menu = [
         {
             title: "房型管理",
             sub: [
-                { title: "房型統計", path: "/admin" },
-                { title: "房間清單", path: "/admin/rooms" }
+                { title: "房型統計", path: "/admin/roomType" },
+                { title: "房間清單", path: "/admin/roomList" }
             ],
         },
         {
@@ -46,7 +65,7 @@ export default function Sidebar() {
         {
             title: "聊天室",
             sub: [
-                { title: "全體及雅房", path: "/admin/chat" },
+                { title: "全體及雅房", path: "/admin/chat-all" },
                 { title: "個人", path: "/admin/chat-private" }
             ]
         },
@@ -98,21 +117,38 @@ export default function Sidebar() {
                             {item.title}
                             <img src={open[item.title] ? "/icons/admin/Forward-1.svg" : "/icons/admin/Forward.svg"} className="size-6"></img>
                         </div>
-                        {open[item.title] && item.sub && (
-                            <div className="bg-admin-gray py-3">
-                                {item.sub.map((sub) => {
-                                    const isActive = path === sub.path;
+                        {item.sub && (
+                            <AnimatePresence initial={false}>
+                                {open[item.title] && (
+                                <motion.div
+                                    className="bg-admin-gray py-3"
+                                    key={item.title}
+                                    layout
+                                    initial={clickedByUser[item.title] ? { height: 0, opacity: 0 } : false}
+                                    animate={clickedByUser[item.title] ? { height: "auto", opacity: 1 } : {}}
+                                    transition={{ duration: 0.1 }}
+                                >
+                                    {item.sub.map((sub) => {
+                                    const isActive = path.startsWith(sub.path);
                                     return (
-                                    <Link href={sub.path} key={sub.title} >
-                                        <div className={`flex items-center pl-5 py-2 text-gray-600 hover:text-primary-green cursor-pointer
-                                            ${isActive ? "bg-white text-primary-green" : ""}`}>
-                                            <img src="/icons/admin/Next Page.svg" className="size-5 mr-2"></img>
-                                            <p>{sub.title}</p> 
+                                        <Link href={sub.path} key={sub.title}>
+                                        <div
+                                            className={`flex items-center pl-5 py-2 text-gray-600 hover:text-primary-green cursor-pointer ${
+                                            isActive ? "bg-white text-primary-green" : ""
+                                            }`}
+                                        >
+                                            <img
+                                            src="/icons/admin/Next Page.svg"
+                                            className="size-5 mr-2"
+                                            />
+                                            <p>{sub.title}</p>
                                         </div>
-                                    </Link>
-
-                                )})}
-                            </div>
+                                        </Link>
+                                    );
+                                    })}
+                                </motion.div>
+                                )}
+                            </AnimatePresence>
                         )}
                     </div>
                 ))}

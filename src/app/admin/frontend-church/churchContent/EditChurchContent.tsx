@@ -59,9 +59,7 @@ export default function EditChurchContent() {
             / 緣起與願景
         </p>
 
-        <div className="flex flex-col items-start gap-4">
-            
-            
+        <div className="flex flex-col items-start gap-4">               
             <label className="mt-4 text-gray">選擇名稱：</label>
             <select
             value={selectId}

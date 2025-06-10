@@ -12,13 +12,17 @@
     "@next/font": "^14.2.15",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
+    "exceljs": "^4.4.0",
     "firebase": "^11.7.3",
     "firebase-admin": "^13.4.0",
+    "framer-motion": "^12.16.0",
     "mime": "^4.0.7",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-firebase-hooks": "^5.1.1"
+    "react-firebase-hooks": "^5.1.1",
+    "xlsx": "^0.18.5",
+    "xlsx-style": "^0.8.13"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

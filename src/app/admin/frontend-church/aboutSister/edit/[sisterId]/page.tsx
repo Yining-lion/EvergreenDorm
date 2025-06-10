@@ -1,7 +1,7 @@
-import HeaderAdmin from "./components/HeaderAdmin";
-import RoomStats from "./components/RoomStats";
-import Sidebar from "./components/Sidebar";
+import HeaderAdmin from "@/app/admin/components/HeaderAdmin";
+import Sidebar from "@/app/admin/components/Sidebar";
 import AdminRouter from "@/app/auth/AdminRoute"
+import EditSisterPage from "./EditSisterPage";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
         <div className="flex">
           <Sidebar />
           <div className="bg-admin-gray w-full p-10">
-            <RoomStats />
+            <EditSisterPage />
           </div>
         </div>
       </div>

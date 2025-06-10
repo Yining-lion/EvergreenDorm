@@ -22,8 +22,7 @@ export default function FrontendFAQ () {
             <div className="bg-white w-full">
                 <table className="w-full text-gray-700 text-center ">
                     <tbody>
-                        {editedFaqs.map((faq) => {
-                    
+                        {editedFaqs.map((faq) => {                    
                             return (
                                 <tr key={faq.uid} className="h-12 hover:bg-green-50">
                                                                     
@@ -34,7 +33,6 @@ export default function FrontendFAQ () {
                                         >{faq.category}
                                         </p>
                                     </td>
-
                                 </tr>
                         )})}
                     </tbody>
