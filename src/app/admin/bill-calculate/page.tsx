@@ -1,9 +1,10 @@
 import HeaderAdmin from "../components/HeaderAdmin";
 import Sidebar from "../components/Sidebar";
 import AdminRouter from "@/app/auth/AdminRoute"
-import BillBaseContent from "./components/BillBaseContent";
+import BillCalculateContent from "./components/BillCalculateContent";
 
 export default function Home() {
+
   return (
     <AdminRouter>
       <div className="flex flex-col min-h-screen">
@@ -11,7 +12,7 @@ export default function Home() {
         <div className="flex">
           <Sidebar />
           <div className="bg-admin-gray w-full p-10">
-            <BillBaseContent />
+            <BillCalculateContent />
           </div>
         </div>
       </div>

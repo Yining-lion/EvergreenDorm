@@ -1,46 +1,36 @@
-import ExcelJS from 'exceljs';
+import ExcelJS from "exceljs";
+import { CaculateElecRow } from "./fetchRoomMemberData";
 
-export type Row = {
-  building: string;
-  roomNumber: string;
-  name: string;
-};
-
-export default async function downloadExcel(rows: Row[]) {
-  // 分離 B 棟和 C 棟資料
-  const bRooms = rows.filter(r => r.building === 'B');
-  const cRooms = rows.filter(r => r.building === 'C');
+export default async function downloadCaculateElecExcel(rows: CaculateElecRow[]) {
 
   const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet('電錶');
+  const worksheet = workbook.addWorksheet("電錶");
 
   // 標題列
   const headers = [
-    "房號", "110電壓", "220電壓", "合計", "本月用電", "電費", "水費", "水電費",
-    "房號", "110電壓", "220電壓", "合計", "本月用電", "電費", "水費", "水電費"
+    "房號", "姓名1", "姓名2", "電壓110", "電壓220", "公浴歸屬", "不算公浴"
   ];
   worksheet.addRow(headers);
 
-  // 找最大列數，確保所有資料都能放下
-  const maxRows = Math.max(bRooms.length, cRooms.length);
-
-  for (let i = 0; i < maxRows; i++) {
-    const bRoom = bRooms[i];
-    const cRoom = cRooms[i];
-
-    const row = [
-      cRoom?.roomNumber ?? "", "", "", "", "", "", "", "",
-      bRoom?.roomNumber ?? "", "", "", "", "", "", "", ""
-    ];
-    worksheet.addRow(row);
-  }
+  rows.forEach((row) => {
+    const r = [
+      row.roomNumber ?? "",
+      row.name_1 ?? "",
+      row.name_2 ?? "",
+      row.voltage_110 ?? "",
+      row.voltage_220 ?? "",
+      row.pubBath ?? "",
+      row.noPubBathPesrson ?? ""
+  ];
+    worksheet.addRow(r);
+  })
 
   // 加樣式：走訪每個儲存格，加邊框與字型
   worksheet.eachRow((row, rowNumber) => {
     row.eachCell((cell) => {
       cell.font = {
         name: 'Microsoft JhengHei',
-        size: 10,
+        size: 12,
         bold: rowNumber === 1 // 標題列加粗
       };
 
@@ -55,6 +45,11 @@ export default async function downloadExcel(rows: Row[]) {
     });
   });
 
+  // 欄位統一寬度
+  worksheet.columns.forEach(column => {
+    column.width = 15;
+  });
+
   // 將整個 Excel 檔案轉為二進位資料
   const buffer = await workbook.xlsx.writeBuffer();
 
@@ -63,7 +58,7 @@ export default async function downloadExcel(rows: Row[]) {
   const url = URL.createObjectURL(blob); // 產生一個臨時 URL
   const a = document.createElement('a');
   a.href = url;
-  a.download = '抄電錶用.xlsx';
+  a.download = '計算各房度數.xlsx';
   a.click();
   URL.revokeObjectURL(url); // 釋放資源，避免記憶體洩漏
 }

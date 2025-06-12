@@ -1,6 +1,6 @@
 "use client";
 
-import { getDocs, collection, doc, setDoc, deleteDoc } from "firebase/firestore";
+import { getDocs, collection, doc, setDoc, deleteDoc, query, orderBy } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "@/app/lib/firebase";
 
@@ -63,11 +63,11 @@ export default function MemberInfo() {
         alert("更新成功！");
         setEditingRowId(null);
     }
-
     
     useEffect(() => {
         const fetchData = async () => {
-            const membersSnapshot = await getDocs(collection(db, "members"))
+            const q = query(collection(db, "members"), orderBy("roomNumber"));
+            const membersSnapshot = await getDocs(q)
             const membersData = membersSnapshot.docs.map((doc) => ({
                 uid: doc.id, 
                 ...(doc.data() as Omit<Member, "uid">)

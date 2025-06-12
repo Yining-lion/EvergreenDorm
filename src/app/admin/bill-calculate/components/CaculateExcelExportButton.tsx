@@ -1,24 +1,24 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchRoomRows, WriteElecRow} from "../../components/bill/fetchRoomMemberData";
-import downloadInitialElecExcel from "../../components/bill/downloadInitialElecExcel";
+import { CaculateElecRow, fetchRoomRows } from "../../components/bill/fetchRoomMemberData";
+import downloadCaculateElecExcel from "../../components/bill/downloadCaculateElecExcel";
 
-export default function InitialExcelExportButton() {
+export default function CaculateExcelExportButton() {
     const [loading, setLoading] = useState(false);
-    const [rows, setRows] = useState<WriteElecRow[]>([]);
+    const [rows, setRows] = useState<CaculateElecRow[]>([]);
     
     useEffect(() => {
     const fetchData = async () => {
       const data = await fetchRoomRows();
-      const { writeElecRows } = data
-      setRows(writeElecRows as WriteElecRow[]);
+      const { caculateElecRows } = data
+      setRows(caculateElecRows as CaculateElecRow[]);
     };
     fetchData();
   }, []);
 
     const handleDownload = () => {
         setLoading(true);
-        downloadInitialElecExcel(rows as WriteElecRow[]);
+        downloadCaculateElecExcel(rows as CaculateElecRow[]);
         setLoading(false);
     };
 
@@ -28,7 +28,7 @@ export default function InitialExcelExportButton() {
         onClick={handleDownload}
         disabled={loading}
         >
-        {loading ? "下載中…" : "下載抄電表用 Excel"}
+        {loading ? "下載中…" : "下載各房度數 Excel"}
         </button>
     );
 }

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { db } from "@/app/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 
-type Room = {
+export type Room = {
   id: string;
   building: string;
   floor: number;

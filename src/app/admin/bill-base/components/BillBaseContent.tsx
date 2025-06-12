@@ -29,8 +29,11 @@ export default function BillBaseContent() {
         if (billBase.length === 0) return;
         const item = billBase[0];
         await updateDoc(doc(db, "billBase", item.uid), {
-            ...billBase,
-            createdAt: new Date(),
+            "B-rate": item["B-rate"],
+            "C-rate": item["C-rate"],
+            "base-rate": item["base-rate"],
+            "water-rate": item["water-rate"],
+            updatedAt: new Date(),
         });
         alert("更新成功！");
     };
@@ -145,7 +148,6 @@ export default function BillBaseContent() {
             />
             )}
         </div>
-        
 
         <div className="mt-10">
             <InitialExcelExportButton />

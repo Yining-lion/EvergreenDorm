@@ -1,6 +1,6 @@
 "use client";
 
-import { getDocs, collection, addDoc, serverTimestamp} from "firebase/firestore";
+import { getDocs, collection, addDoc, serverTimestamp, query, orderBy } from "firebase/firestore";
 import { useState, useEffect, useMemo } from "react";
 import { db } from "@/app/lib/firebase";
 import { useAuth } from "@/app/auth/authContext";
@@ -26,7 +26,8 @@ export default function ParcelContent () {
 
     useEffect(() => {
             const fetchData = async () => {
-                const membersSnapshot = await getDocs(collection(db, "members"))
+                const q = query(collection(db, "members"), orderBy("roomNumber"));
+                const membersSnapshot = await getDocs(q)
                 const fetchedData: Member[] = [];
 
                 membersSnapshot.forEach((doc) => {
@@ -71,7 +72,7 @@ export default function ParcelContent () {
         return selectedMembers.map((member) => `${member.name}： ${text}`);
     }, [selectedMembers, text]);
 
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         if (!text) {
             alert("請輸入訊息內容");
             return;
@@ -86,27 +87,22 @@ export default function ParcelContent () {
         
         try {
 
-            selectedMembers.forEach( async (member) => {
-                const room = privateRooms.find(
-                (r) => r.members?.[0] === member.uid
-            );
-            if (!room) {
-                console.warn(`找不到 ${member.name} 的 private 聊天室`);
-                return null;
-            }
+            for (const member of selectedMembers) {
+                const room = privateRooms.find((r) => r.members?.[0] === member.uid);
+                if (!room) continue;
 
-            const message = `${member.name}： ${text}`
+                const message = `${member.name}： ${text}`;
 
-            await addDoc(collection(db, "chatRooms", room.id, "messages"), {
-                senderId: user?.uid,
-                content: message,
-                createdAt: serverTimestamp(),
-                localTimestamp: Date.now(), // 暫時時間：本地產生，避免因 serverTimestamp() 非同步產生導致時間 undefined 而報錯
-            });
+                await addDoc(collection(db, "chatRooms", room.id, "messages"), {
+                    senderId: user?.uid,
+                    content: message,
+                    createdAt: serverTimestamp(),
+                    localTimestamp: Date.now(),
+                });
+                }
 
             alert("訊息已成功發送！");
             setSelectedMembers([]);
-            })
             
         } catch (err) {
             console.error("發送失敗：", err);
@@ -201,7 +197,7 @@ export default function ParcelContent () {
                 <button
                     onClick={handleSendMessage}
                     disabled={sending}
-                    className="bg-primary-green hover:bg-green-700 text-white px-4 py-2 mt-4 disabled:opacity-50 cursor-pointer"
+                    className="bg-primary-green hover:bg-green-700 text-white px-6 py-2 mt-4 disabled:opacity-50 cursor-pointer"
                 >
                     {sending ? "發送中..." : "發送訊息"}
                 </button>
