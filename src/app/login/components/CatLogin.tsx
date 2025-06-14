@@ -44,7 +44,7 @@ export default function CatLogin () {
         if (loading) return;
 
         if (user?.role === "admin") {
-            router.push("/admin");
+            router.push("/admin/roomType");
         } else if (user?.role === "member") {
             router.push("/");
         } else {

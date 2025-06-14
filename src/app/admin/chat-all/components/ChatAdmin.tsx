@@ -8,10 +8,12 @@ import ChatSelector from "@/app/components/Chat/ChatSelector";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import ChatInput from "@/app/components/Chat/ChatInput";
 import ChatWindow from "@/app/components/Chat/ChatWindow";
+import { useFCM } from "@/app/hooks/useFCM";
 
 export default function ChatAdmin () {
     const { user, loading } = useAuth();
     const [activeRoomId, setActiveRoomId] = useState<string>("global");
+    useFCM(user?.uid);
 
     // 取得聊天室清單（admin 角色可取得所有房間）
     const chatRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "system");

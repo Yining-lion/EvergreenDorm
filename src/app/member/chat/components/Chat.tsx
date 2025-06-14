@@ -9,9 +9,11 @@ import ChatSelector from "@/app/components/Chat/ChatSelector";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import ChatInput from "@/app/components/Chat/ChatInput";
 import ChatWindow from "@/app/components/Chat/ChatWindow";
+import { useFCM } from "@/app/hooks/useFCM";
 
 export default function Chat () {
     const { user } = useAuth();
+    useFCM(user?.uid);
 
     const [activeRoomId, setActiveRoomId] = useState<string>("global");
 

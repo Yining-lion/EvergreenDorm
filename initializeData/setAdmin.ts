@@ -1,4 +1,3 @@
-import { cert } from "firebase-admin/app";
 import admin from "firebase-admin";
 import * as path from "path";
 
