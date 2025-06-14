@@ -6,5 +6,5 @@
     "noEmit": false,
     "outDir": "dist-scripts"
   },
-  "include": ["initializeData", "functions"]
+  "include": ["initializeData/upload.ts"]
 }
