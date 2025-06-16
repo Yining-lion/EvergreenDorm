@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 type FooterProps = {
     roofBgColor?: string; // default 白色
 };
@@ -31,9 +33,11 @@ export default function Footer({ roofBgColor = 'bg-white' }: FooterProps) {
             {/* 內容 */}
             <div className="relative pb-5 flex flex-col justify-center items-center">
                 <div className="mb-4 mt-[-30px] sm:mt-0 text-left flex flex-col sm:flex-row justify-center items-center">
-                    <img src="/icons/home/Facebook.svg" alt="Facebook" className="size-10 mb-2 sm:mb-0 sm:mr-2"/>
+                    <Link href="https://www.facebook.com/Evergreen.dorm?locale=zh_TW" target="_blank" rel="noopener noreferrer" className="">
+                        <img src="/icons/home/Facebook.svg" alt="Facebook" className="size-10 mb-2 sm:mb-0 sm:mr-2"/>
+                    </Link>
                     <div className="text-sm sm:text-base">
-                        <p>地址：新北市泰山區明志路三段42巷2號--查看地圖</p>
+                        <p>地址：新北市泰山區明志路三段42巷2號--<Link href="https://maps.app.goo.gl/PR9wJ3JN6HKkZ2UP7" target="_blank" rel="noopener noreferrer" className="hover:underline">查看地圖</Link></p>
                         <p>電話：(02)2903-0610</p>
                         <p>Email：evergreen@example.com</p>
                     </div>

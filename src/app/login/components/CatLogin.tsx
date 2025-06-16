@@ -54,7 +54,7 @@ export default function CatLogin () {
 
     return (
         <CatWrapper>
-            <form onSubmit={handleLogin} className="relative w-[250px] m-auto flex flex-col items-center">
+            <form onSubmit={handleLogin} className="relative w-[220px] xs:w-[250px] m-auto flex flex-col items-center">
                 <h2 className="text-center text-2xl font-bold mb-4">登入會員</h2>
 
                 <div className="flex items-center w-full mb-2 bg-primary-orange p-2">
@@ -62,7 +62,7 @@ export default function CatLogin () {
                     <input 
                     type="email" 
                     placeholder="電子信箱" 
-                    className="focus:outline-none"
+                    className="focus:outline-none w-full truncate"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     onFocus={() => setMessage("")}
@@ -74,7 +74,7 @@ export default function CatLogin () {
                     <input 
                     type="password" 
                     placeholder="密碼" 
-                    className="focus:outline-none"
+                    className="focus:outline-none w-full truncate"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setMessage("")}
@@ -94,7 +94,6 @@ export default function CatLogin () {
                 <Link href="/signup">
                     <p className="text-center mt-2 text-sm cursor-pointer hover:underline">註冊會員</p>
                 </Link>
-
             </form>
         </CatWrapper>
     )

@@ -24,9 +24,10 @@ export default function FacilityCard({ facilities, onOpen, onEdit,  onChange, ed
                 return (
                     <div className="flex" key={facility.uid}>
                         <div
-                        className="bg-white shadow-[var(--shadow-black)] rounded-xs p-4 flex flex-col w-full md:flex-row items-center md:items-start md:justify-between gap-4"
+                        className={`bg-white shadow-[var(--shadow-black)] rounded-xs p-4 flex flex-col w-full items-center md:flex-row md:items-start md:justify-between gap-4
+                                    ${imagePosition === "left" ? "flex-col" : "flex-col-reverse"}`}
                         >
-                        {imagePosition === 'left' && (
+                        {imagePosition === "left" && (
                             <div className="relative w-full md:w-1/2 h-52 cursor-pointer">
                                 {/* <Image fill /> 代表「 absolute 絕對定位」填滿它的父層，所以父層要使用 relative */}
                                 <Image
@@ -70,7 +71,7 @@ export default function FacilityCard({ facilities, onOpen, onEdit,  onChange, ed
                             }
 
                         </div>
-                        {imagePosition === 'right' && (
+                        {imagePosition === "right" && (
                             <div className="relative w-full md:w-1/2 h-52 cursor-pointer">
                                 <Image
                                     src={imageUrl}

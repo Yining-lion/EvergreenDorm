@@ -39,7 +39,7 @@ export default function ActivityContent() {
                 {activities.map((activity, index) => (
                     <div
                     key={index}
-                    className="group bg-white rounded-lg p-4 transition-all duration-200 shadow-[var(--shadow-black)] 
+                    className="group bg-white p-4 transition-all duration-200 shadow-[var(--shadow-black)] 
                             hover:shadow-[var(--shadow-primary-green)] open:shadow-[var(--shadow-primary-green)]"
                     onClick={ () => openModal(activity, 0) }
                     >
