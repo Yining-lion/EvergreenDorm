@@ -119,7 +119,7 @@ async function uploadChatRooms(data: any[], jsonFileName: string) {
     await db.collection(collectionName).doc(id).set({
       ...rest,
       createdAt: new Date(),
-    });
+    }, { merge: true });
 
     console.log(`寫入 Firestore: ${collectionName}/${id}`);
   }
@@ -267,8 +267,8 @@ async function uploadJsonWithType(jsonFileName: string) {
   const { type, data } = parsed;
 
   switch (type) {
-    case "activity":
-      await uploadActivity(data, jsonFileName);
+    case "chatRooms":
+      await uploadChatRooms(data, jsonFileName);
       break;
     default:
       console.warn(`不支援的 type: ${type}（檔案: ${jsonFileName}）`);

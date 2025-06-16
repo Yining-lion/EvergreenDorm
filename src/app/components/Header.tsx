@@ -20,7 +20,7 @@ export default function Header() {
       <div className="w-[90%] lg:w-[1200px] m-auto flex justify-between items-center">
 
           <Link href="/">
-            <Image src="/images/logo.png" alt="長青宿舍" width={180} height={100} className="w-[150px] xs:w-[180px] "/>
+            <Image src="/images/logo.png" alt="長青宿舍" width={180} height={150} className="w-[150px] xs:w-[180px] "/>
           </Link>
 
           <nav className="hidden lg:flex items-center text-gray text-lg">

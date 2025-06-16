@@ -16,11 +16,44 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage(function (payload) {
   console.log("[firebase-messaging-sw.js] Received background message", payload);
 
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: "/images/小logo.png",
+    body: payload.data.body || "你有一則新訊息" ,
+    icon: "/images/小logo.svg",
+    data: {
+      roomId: payload.data.roomId,
+      roomType: payload.data.roomType,
+      isAdmin: payload.data.isAdmin
+    }
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+self.addEventListener("notificationclick", function (event) {
+  const data = event.notification.data
+  const roomType = data.roomType;
+  const isAdmin = data.isAdmin === "true";
+  event.notification.close();
+
+  let targetUrl = "/member/chat";
+
+  if (isAdmin) {
+    if (roomType === "global" || roomType === "BF") {
+      targetUrl = "/admin/chat-all";
+    } else if (roomType === "private") {
+      targetUrl = "/admin/chat-private";
+    }
+  }
+
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then(clientList => {
+      for (const client of clientList) {
+        if (client.url.includes(targetUrl) && "focus" in client) {
+          return client.focus();
+        }
+      }
+      return clients.openWindow(targetUrl);
+    })
+  );
 });

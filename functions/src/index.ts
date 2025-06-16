@@ -91,16 +91,12 @@ export const notifyOnNewMessage = functions.firestore
       const tokens = (await Promise.all(tokenPromises))
         .filter((token): token is string => Boolean(token));
 
-      console.log("recipientIds:", recipientIds);
-      console.log("tokens:", tokens);
-
       if (tokens.length === 0) {
         console.log(`No valid FCM tokens found for room ${roomId}`);
         return;
       }
 
       // 準備推播內容
-      const roomName = getRoomDisplayName(roomType, roomData.BF);
       // 查詢 senderName
       let senderName = "某人";
       try {
@@ -110,31 +106,38 @@ export const notifyOnNewMessage = functions.firestore
         console.warn("查詢 senderName 失敗:", e);
       }
       const body = `${senderName}：${message.content}` || "你有一則新訊息";
-      const payload = {
-        tokens: tokens,
-        notification: {
-          title: `長青宿舍 ${roomName} 聊天室有新訊息`,
-          body,
-        },
-        data: {
-          roomId: roomId,
-          roomName: roomData.name,
-          roomType: roomType,
-          senderId: senderId,
-        },
-      };
 
-      // 發送推播
-      const response = await admin.messaging().sendEachForMulticast(payload);
-      console.log(`Successfully sent ${response.successCount} notifications for room ${roomId}`);
-      
-      if (response.failureCount > 0) {
-        console.error(`Failed to send ${response.failureCount} notifications for room ${roomId}`);
-        response.responses.forEach((resp, index) => {
-          if (resp.error) {
-            console.error(`Failed to send to token ${index}:`, resp.error);
-          }
-        });
+      // 建立一個 uid -> token 的對應表
+      const uidTokenMap = new Map<string, string>();
+
+      for (let i = 0; i < recipientIds.length; i++) {
+        const uid = recipientIds[i];
+        const memberDoc = await db.collection("members").doc(uid).get();
+        const fcmToken = memberDoc.data()?.fcmToken;
+        if (fcmToken) uidTokenMap.set(uid, fcmToken);
+      }
+
+      const adminIds = await getAdminIds();
+      for (const [uid, token] of uidTokenMap.entries()) {
+        const isAdmin = adminIds.includes(uid);
+        const roomName = getRoomDisplayName(roomType, roomData.BF, isAdmin);
+        const messagePayload = {
+          token,
+          data: {
+            title: `長青宿舍 ${roomName} 聊天室有新訊息`,
+            body,
+            roomId,
+            roomType,
+            isAdmin: isAdmin ? "true" : "false",
+          },
+        };
+
+        try {
+          await admin.messaging().send(messagePayload);
+          console.log(`Sent notification to ${uid}, isAdmin: ${isAdmin}`);
+        } catch (err) {
+          console.error(`Error sending to ${uid}`, err);
+        }
       }
 
     } catch (error) {
@@ -215,14 +218,14 @@ async function getUsersByBF(BF: string): Promise<string[]> {
 }
 
 // 輔助函式：根據房間類型生成顯示名稱
-function getRoomDisplayName(roomType: string, BF?: string): string {
+function getRoomDisplayName(roomType: string, BF?: string, isAdmin?: boolean): string {
   switch (roomType) {
     case "global":
       return "全部";
     case "BF":
-      return BF ? `${BF} 樓層` : "雅房";
+      return BF ? `${BF}雅房` : "雅房";
     case "private":
-      return "管理員";
+      return isAdmin ? "個人" : "管理員";
     default:
       return "聊天室";
   }
