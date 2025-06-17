@@ -7,7 +7,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/app/lib/firebase";
 import Link from "next/link"
 import { useAuth } from "@/app/auth/authContext";
-import { FirebaseError } from "firebase/app";
 
 const errorMessages: { [key: string]: string } = {
   "auth/invalid-email": "無效的電子郵件格式",
@@ -19,25 +18,25 @@ export default function CatLogin () {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const { user, loading } = useAuth();
 
     async function handleLogin(e: React.FormEvent) {
-      e.preventDefault();
-
-      try {
-
-        await signInWithEmailAndPassword(auth, email, password);
-
-      } catch (err: unknown) {
-        if (err instanceof FirebaseError) {
-            const errorCode = err.code;
-            const errorMessage = errorMessages[errorCode] || "登入失敗，請再試一次";
-            setMessage(errorMessage);
-            console.log("錯誤代碼：", err.code);
-            console.log("錯誤訊息：", err.message);
+        e.preventDefault();
+        setIsLoading(true);
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+        } catch (err) {
+            if (err && typeof err === "object" && "code" in err && "message" in err) {
+                const firebaseError = err as { code: string; message: string };
+                const errorCode = firebaseError.code;
+                const errorMessage = errorMessages[errorCode] || "登入失敗，請再試一次";
+                setMessage(errorMessage);
+            }
+        } finally {
+            setIsLoading(false);
         }
-      }
     }
 
     useEffect(() => {
@@ -90,7 +89,13 @@ export default function CatLogin () {
                     </p>
                 )}
 
+                { isLoading ? 
+                <div className="w-[150px] bg-[#FF8C62] py-2 font-semibold mt-17 flex justify-center">
+                    <div className="w-6 h-6 border-3 border-white border-t-[#FF8C62] rounded-full animate-spin"></div>
+                </div>:
                 <button type="submit" className="w-[150px] bg-[#FF8C62] text-white py-2 cursor-pointer font-semibold mt-17">登入</button>
+                }
+
                 <Link href="/signup">
                     <p className="text-center mt-2 text-sm cursor-pointer hover:underline">註冊會員</p>
                 </Link>
