@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   const { name, grade, phone, email, moveInDate, roomType, visitTime, referrer } = formData;
 
   try {
-    const { error } = await resend.emails.send({
+    await resend.emails.send({
       from: "onboarding@resend.dev",
       to: [email],
       subject: "長青宿舍-預約看房通知",
@@ -34,12 +34,8 @@ export async function POST(req: Request) {
             </div>`,
     });
 
-    if (error) {
-      return new Response(JSON.stringify({ error: error.message }), { status: 400 });
-    }
-
     return new Response(JSON.stringify({ message: "信件已發送" }), { status: 200 });
-  } catch (error) {
+  } catch {
     return new Response(JSON.stringify({ error: "發送信件時發生錯誤" }), { status: 500 });
   }
 }
