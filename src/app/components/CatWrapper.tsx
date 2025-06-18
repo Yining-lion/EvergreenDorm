@@ -5,7 +5,7 @@ import FadeInSection from "./FadeInSection";
 
 export default function CatWrapper ({ children }: { children: ReactNode }) {
     return (
-        <div className="bg-primary-pink flex-grow">
+        <div className="bg-primary-pink flex-grow min-h-[700px]">
             <FadeInSection delay={0.2}>
                 <div className="relative w-[350px] xs:w-[400px] mx-auto z-0">
                     {/* 臉 */}

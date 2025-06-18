@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: "長青宿舍",
     images: [
       {
-        url: "http://localhost:3000/og-image.jpg", // 要記得換成實際的圖片網址
+        url: "https://firebasestorage.googleapis.com/v0/b/dorm-3f905.firebasestorage.app/o/layout%E7%94%A8%2F%E5%AE%BF%E8%88%8D%E5%B0%81%E9%9D%A201.svg?alt=media&token=feaad459-f43a-4dd4-a615-084a770b027a",
         width: 1200,
         height: 630,
         alt: "長青宿舍",
