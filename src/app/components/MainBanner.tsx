@@ -31,22 +31,24 @@ const settings = {
 
 export default function MainBanner() {
 
-  // 偵測螢幕尺寸
-  const isClient = typeof window !== "undefined";
-  const initialWidth = isClient ? window.innerWidth : 1024;
-  const [windowWidth, setWindowWidth] = useState<number | null>(initialWidth);
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const mediaQuery = window.matchMedia("(min-width: 900px)");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsDesktop(e.matches);
+    };
+
+    // 初始設定
+    setIsDesktop(mediaQuery.matches);
+
+    // 加入監聽
+    mediaQuery.addEventListener("change", handleChange);
+
+    // 清除監聽
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
-
-  if (windowWidth === null) return null;
-
-  // 根據螢幕寬度選擇圖片組
-  const isDesktop = windowWidth >= 1024;
 
   const images = isDesktop ? desktopImages : mobileImages;
 

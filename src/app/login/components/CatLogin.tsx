@@ -81,7 +81,7 @@ export default function CatLogin () {
                     />
                 </div>
 
-                <p className="absolute right-0 bottom-28 text-sm cursor-pointer hover:underline">忘記密碼？</p>
+                {/* <p className="absolute right-0 bottom-28 text-sm cursor-pointer hover:underline">忘記密碼？</p> */}
 
                 {message && (
                     <p className="absolute bottom-19 text-sm text-red-600">

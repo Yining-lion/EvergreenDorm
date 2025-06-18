@@ -15,8 +15,8 @@ type ButtonProps = {
 const variantClasses: Record<string, string> = {
   green: "bg-secondary-green text-white hover:bg-primary-green",
   orange: "bg-primary-orange text-primary-brown hover:bg-primary-brown hover:text-white",
-  brown: "bg-primary-brown text-white transition-transform duration-200 hover:scale-105 w-[130px] py-2",
-  gray: "bg-gray text-white transition-transform duration-200 hover:scale-105 w-[130px] py-2",
+  brown: "bg-primary-brown text-white transition-transform duration-200 hover:scale-105 w-[105px] sm:w-[130px] py-2",
+  gray: "bg-gray text-white transition-transform duration-200 hover:scale-105 w-[105px] sm:w-[130px] py-2",
 };
 
 // 函數型元件 (Functional Component)

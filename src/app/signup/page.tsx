@@ -7,7 +7,7 @@ export default function SignupPage() {
     <div className="relative flex flex-col min-h-screen">
       <Header />
       <CatSignup />
-      <main className="flex-grow bg-primary-pink"></main>
+      {/* <main className="flex-grow bg-primary-pink"></main> */}
       <Footer roofBgColor="bg-primary-pink"/>
     </div>
   );

@@ -4,10 +4,10 @@ import CatLogin from "./components/CatLogin";
 
 export default function LoginPage() {
   return (
-    <div className="relative flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-screen bg-primary-pink">
       <Header />
       <CatLogin />
-      <main className="flex-grow bg-primary-pink"></main>
+      {/* <main className="flex-grow bg-primary-pink"></main> */}
       <Footer roofBgColor="bg-primary-pink"/>
     </div>
   );
