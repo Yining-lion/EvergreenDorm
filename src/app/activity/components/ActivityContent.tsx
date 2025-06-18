@@ -1,10 +1,10 @@
 "use client";
 
-import SectionLayout from '@/app/components/SectionLayout';
-import { useState } from 'react';
-import useFetchActivity, { Activity } from '@/app/components/Activity/useFetchActivity';
-import ActivityModal from '@/app/components/Activity/ActivityModal';
-import LoadingSpinner from '@/app/components/LoadingSpinner';
+import SectionLayout from "@/app/components/SectionLayout";
+import { useState } from "react";
+import useFetchActivity, { Activity } from "@/app/components/Activity/useFetchActivity";
+import ActivityModal from "@/app/components/Activity/ActivityModal";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function ActivityContent() {
    const { activities, loading } = useFetchActivity();
@@ -35,27 +35,26 @@ export default function ActivityContent() {
 
     return (
         <SectionLayout title="活動影像">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto -mt-7">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto -mt-7 w-[90%] md:w-full">
                 {activities.map((activity, index) => (
                     <div
                     key={index}
-                    className="group bg-white p-4 transition-all duration-200 shadow-[var(--shadow-black)] 
+                    className="group bg-white p-4 transition-all duration-200 shadow-[var(--shadow-black)] rounded-lg cursor-pointer
                             hover:shadow-[var(--shadow-primary-green)] open:shadow-[var(--shadow-primary-green)]"
                     onClick={ () => openModal(activity, 0) }
                     >
-                    <p className="cursor-pointer text-lg font-medium flex items-center">{activity.category}</p>
+                        <p className="text-lg font-medium flex items-center">{activity.category}</p>
                     </div> 
                 ))}
             </div>
 
             <ActivityModal
-                activity={currentActivity}
-                currentImageIndex={currentImageIndex}
-                onClose={closeModal}
-                onNext={showNextImage}
-                onPrev={showPrevImage}
+            activity={currentActivity}
+            currentImageIndex={currentImageIndex}
+            onClose={closeModal}
+            onNext={showNextImage}
+            onPrev={showPrevImage}
             />
-
         </SectionLayout>
     );
 }

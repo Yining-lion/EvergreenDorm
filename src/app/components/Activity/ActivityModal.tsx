@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Modal from "@/app/components/Modal";
 import { Activity } from '@/app/components/Activity/useFetchActivity';
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props  = {
   activity: Activity | null;
@@ -32,12 +33,23 @@ export default function ActivityModal({
 
             {/* 圖片區 */}
             <div className="relative w-full h-full">
-                <Image
-                src={image.url}
-                alt={image.title}
-                fill
-                className="object-contain"
-                />
+                <AnimatePresence>
+                    <motion.div
+                    key={image.url}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute inset-0"
+                    >
+                    <Image
+                        src={image.url}
+                        alt={image.title}
+                        fill
+                        className="object-contain"
+                    />
+                    </motion.div>
+                </AnimatePresence>
 
                 {/* 左上角張數 */}
                 <div className="absolute top-4 left-4 text-white text-lg font-semibold z-11">

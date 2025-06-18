@@ -22,9 +22,9 @@ export default function FacilityCard({ facilities, onOpen, onEdit,  onChange, ed
                 const imageUrl = facility.images[0]?.url
                 const isEditing = editingId === facility.uid;
                 return (
-                    <div className="flex" key={facility.uid}>
+                    <div className="flex items-center justify-center" key={facility.uid}>
                         <div
-                        className={`bg-white shadow-[var(--shadow-black)] rounded-xs p-4 flex flex-col w-full items-center md:flex-row md:items-start md:justify-between gap-4
+                        className={`bg-white shadow-[var(--shadow-black)] rounded-xs p-4 flex flex-col w-[90%] items-center md:w-full md:flex-row md:items-start md:justify-between gap-4
                                     ${imagePosition === "left" ? "flex-col" : "flex-col-reverse"}`}
                         >
                         {imagePosition === "left" && (
@@ -104,7 +104,6 @@ export default function FacilityCard({ facilities, onOpen, onEdit,  onChange, ed
                         }
                     </div>
                 )
-                
             })}
         </div>
     );

@@ -146,32 +146,32 @@ export default function Form () {
 
     return (
         <SectionLayout title="預約看房">
-            <form className="relative bg-white shadow-[var(--shadow-black)] rounded-xs max-w-3xl mx-auto -mt-20 p-10">
+            <form className="relative bg-white shadow-[var(--shadow-black)] rounded-xs max-w-3xl mx-auto -mt-20 p-10 w-[90%] md:w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray">
                     <div>
-                        <label className="block mb-1 text-lg">姓名</label>
+                        <label className="block mb-1 sm:text-lg">姓名</label>
                         <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full bg-primary-pink p-2 focus:outline-none"
+                        className="w-full bg-primary-pink p-1.5 sm:p-2 focus:outline-none"
                         required
                         />
                     </div>
                     <div>
-                        <label className="block mb-1 text-lg">學校系級</label>
+                        <label className="block mb-1 sm:text-lg">學校系級</label>
                         <input
                         type="text"
                         name="grade"
                         value={formData.grade}
                         onChange={handleChange}
-                        className="w-full bg-primary-pink p-2 focus:outline-none"
+                        className="w-full bg-primary-pink p-1.5 sm:p-2 focus:outline-none"
                         required
                         />
                     </div>
                     <div>
-                        <label className="block mb-1 text-lg">聯絡電話</label>
+                        <label className="block mb-1 sm:text-lg">聯絡電話</label>
                         <input
                         type="tel"
                         name="phone"
@@ -179,40 +179,40 @@ export default function Form () {
                         maxLength={10}
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full bg-primary-pink p-2 focus:outline-none"
+                        className="w-full bg-primary-pink p-1.5 sm:p-2 focus:outline-none"
                         required
                         />
                     </div>
                     <div>
-                        <label className="block mb-1 text-lg">聯絡信箱</label>
+                        <label className="block mb-1 sm:text-lg">聯絡信箱</label>
                         <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full bg-primary-pink p-2 focus:outline-none"
+                        className="w-full bg-primary-pink p-1.5 sm:p-2 focus:outline-none"
                         required
                         />
                     </div>
                     <div>
-                        <label className="block mb-1 text-lg">期望入住日期</label>
+                        <label className="block mb-1 sm:text-lg">期望入住日期</label>
                         <DatePicker
                         selected={moveInDate}
                         onChange={(date) => setMoveInDate(date)}
                         minDate={getMinDate()} // 只能選明天之後
                         dateFormat="yyyy-MM-dd"
                         wrapperClassName="w-full"
-                        className="w-full bg-primary-pink p-2 focus:outline-none"
+                        className="w-full bg-primary-pink p-1.5 sm:p-2 focus:outline-none"
                         required
                         />
                     </div>
                     <div>
-                        <label className="block mb-1 text-lg">期望房型</label>
+                        <label className="block mb-1 sm:text-lg">期望房型</label>
                         <select
                         name="roomType"
                         value={formData.roomType}
                         onChange={handleChange}
-                        className="w-full bg-primary-pink p-2 focus:outline-none"
+                        className="w-full bg-primary-pink p-1.5 sm:p-2 focus:outline-none"
                         required
                         >
                             <option value="">請選擇</option>
@@ -222,7 +222,7 @@ export default function Form () {
                         </select>
                     </div>
                     <div>
-                        <label className="block mb-1 text-lg">預約看房時間</label>
+                        <label className="block mb-1 sm:text-lg">預約看房時間</label>
                         <DatePicker
                         selected={selectedDate}
                         onChange={(date) => setSelectedDate(date)}
@@ -233,23 +233,23 @@ export default function Form () {
                         minTime={getMinTime()} // 10:00
                         maxTime={getMaxTime()} // 18:00
                         wrapperClassName="w-full"
-                        className="w-full bg-primary-pink p-2 focus:outline-none"
+                        className="w-full bg-primary-pink p-1.5 sm:p-2 focus:outline-none"
                         required
                         />
                     </div>
                     <div>
-                        <label className="block mb-1 text-lg">推薦人（若無可不填寫）</label>
+                        <label className="block mb-1 sm:text-lg">推薦人（若無可不填寫）</label>
                         <input
                         type="text"
                         name="referrer"
                         value={formData.referrer}
                         onChange={handleChange}
-                        className="w-full bg-primary-pink p-2 focus:outline-none"
+                        className="w-full bg-primary-pink p-1.5 sm:p-2 focus:outline-none"
                         />
                     </div>
                 </div>
 
-                <p className="text-red-500 font-semibold text-center my-10">請務必詳細閱讀預約說明後再進行下一步預約，本宿舍保留是否同意提供看房之最終決定權</p>
+                <p className="text-red-500 font-semibold text-center text-sm sm:text-base my-10">請務必詳細閱讀預約說明後再進行下一步預約，本宿舍保留是否同意提供看房之最終決定權</p>
 
                 <div className="flex justify-between">
                     <Button variant="brown" onClick={() => router.back()}>上一頁</Button>
@@ -260,7 +260,6 @@ export default function Form () {
                     <Button type="submit" variant="brown" onClick={handleSubmit}>送出</Button>
                     }
                 </div>
-
             </form>
         </SectionLayout>
     )

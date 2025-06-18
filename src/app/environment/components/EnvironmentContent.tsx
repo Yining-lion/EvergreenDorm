@@ -36,7 +36,7 @@ export default function EnvironmentContent() {
     
     return (
         <SectionLayout title="環境介紹">
-            <section className="max-w-3xl mx-auto -mt-20 pb-20">
+            <section className="max-w-3xl mx-auto -mt-20">
                 <FacilityCard facilities={facilities} onOpen={openModal}/>
 
                 <FacilityModal

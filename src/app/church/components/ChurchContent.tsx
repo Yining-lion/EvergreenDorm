@@ -34,7 +34,7 @@ export default function ChurchContent() {
                 <img 
                 src={`${activeTab === tab.label ? tab.icon : tab.iconHover}`} 
                 className={`bg-white size-25 p-5 rounded-full cursor-pointer
-                  ${activeTab === tab.label ? "shadow-[var(--shadow-primary-green)]" : "shadow-[var(--shadow-black)]"}`}></img>
+                ${activeTab === tab.label ? "shadow-[var(--shadow-primary-green)]" : "shadow-[var(--shadow-black)]"}`}></img>
                 <span className="text-lg">{tab.label}</span>
             </button>
         ))}

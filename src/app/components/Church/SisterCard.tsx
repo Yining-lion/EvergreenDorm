@@ -23,9 +23,10 @@ export default function SisterCard({ sisters, onOpen, onEdit, onChange, onDelete
                 const imageUrl = sister.photoURL
                 const isEditing = editingId === sister.uid;
                 return (
-                    <div className="flex" key={sister.uid}>
+                    <div className="flex items-center justify-center" key={sister.uid}>
                         <div
-                        className="bg-white shadow-[var(--shadow-black)] rounded-xs p-4 flex flex-col w-full md:flex-row items-center md:items-start md:justify-between gap-4"
+                        className={`bg-white shadow-[var(--shadow-black)] rounded-xs p-4 flex flex-col w-[90%] items-center md:w-full md:flex-row md:items-start md:justify-between gap-4
+                                    ${imagePosition === "left" ? "flex-col" : "flex-col-reverse"}`}
                         >
                         {imagePosition === 'left' && (
                             <div className={`relative w-full md:w-1/2 h-52 ${onOpen ? "cursor-pointer" : ""}`}>

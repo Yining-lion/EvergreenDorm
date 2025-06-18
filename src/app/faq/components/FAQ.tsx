@@ -4,6 +4,8 @@ import SectionLayout from '@/app/components/SectionLayout';
 import { useState } from 'react';
 import useFetchFAQ from '@/app/components/FAQ/useFetchFAQ';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
+import { AnimatePresence, motion } from "framer-motion";
+import FAQItem from './FAQItem';
 
 const tabs = [
     { label: "設備與使用", icon: "/icons/FAQ/Wrench.svg", iconHover: "/icons/FAQ/Wrench-1.svg"},
@@ -23,39 +25,42 @@ export default function FAQContent() {
   if (loading) return <LoadingSpinner/>
 
   return (
-  <SectionLayout title="住宿QA">
-      <div className="flex justify-center gap-10 flex-wrap mb-8 -mt-15">
-        {tabs.map((tab) => (
-            <button
-            key={tab.label}
-            className={`flex flex-col items-center px-4 py-2 rounded-full transition`}
-            onClick={() => {setActiveTab(tab.label);}}
-            >
-                <img 
-                src={`${activeTab === tab.label ? tab.icon : tab.iconHover}`}
-                className={`bg-white size-25 p-5 rounded-full cursor-pointer 
-                  ${activeTab === tab.label ? "shadow-[var(--shadow-primary-green)]" : "shadow-[var(--shadow-black)]"}`}></img>
-                <span className="text-lg">{tab.label}</span>
-            </button>
-        ))}
-      </div>
+    <SectionLayout title="住宿QA">
+        <div className="flex justify-center gap-10 flex-wrap mb-8 -mt-15">
+          {tabs.map((tab) => (
+              <button
+              key={tab.label}
+              className={`flex flex-col items-center px-4 py-2 rounded-full transition`}
+              onClick={() => {setActiveTab(tab.label);}}
+              >
+                  <img 
+                  src={`${activeTab === tab.label ? tab.icon : tab.iconHover}`}
+                  className={`bg-white size-25 p-5 rounded-full cursor-pointer 
+                    ${activeTab === tab.label ? "shadow-[var(--shadow-primary-green)]" : "shadow-[var(--shadow-black)]"}`}></img>
+                  <span className="text-lg">{tab.label}</span>
+              </button>
+          ))}
+        </div>
 
-      <div className="space-y-4 max-w-2xl mx-auto">
-        {activeFaq?.descriptions.map((description) => (
-            <details
-            key={description.question}
-            className="group bg-white rounded-lg p-4 transition-all duration-200 shadow-[var(--shadow-black)] 
-                      hover:shadow-[var(--shadow-primary-green)] open:shadow-[var(--shadow-primary-green)]"
+        <AnimatePresence mode="wait">
+          {activeFaq && (
+            <motion.div
+              key={activeFaq.category}
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4 max-w-2xl mx-auto w-[90%] md:w-full"
             >
-                <summary className="cursor-pointer text-lg font-medium flex items-center">
-                      <span className="transition-transform duration-200 group-open:rotate-90 mr-3">▶</span>
-                      {description.question}
-                  </summary>
-                <div className="mt-3 whitespace-pre-wrap">{description.answer}</div>
-
-            </details>
-        ))}
-      </div>
-  </SectionLayout>
+              {activeFaq.descriptions.map((description) => (
+                <FAQItem
+                  key={description.question}
+                  question={description.question}
+                  answer={description.answer}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+    </SectionLayout>
   );
 }

@@ -10,9 +10,9 @@ export default function Guidelines () {
 
     return (
         <SectionLayout title="預約說明">
-            <div className="relative bg-white shadow-[var(--shadow-black)] rounded-xs max-w-3xl mx-auto -mt-20 p-10">
-                <p className="text-red-500 font-semibold text-center">請務必詳細閱讀預約說明後再進行下一步預約，本宿舍保留是否同意提供看房之最終決定權</p>
-                <ol className="list-decimal space-y-5 text-gray text-lg leading-relaxed mt-7 mb-20 pl-5">
+            <div className="relative bg-white shadow-[var(--shadow-black)] rounded-xs max-w-3xl mx-auto -mt-20 p-10 w-[90%] flex flex-col justify-center items-center md:w-full">
+                <p className="text-red-500 font-semibold text-center text-sm sm:text-base">請務必詳細閱讀預約說明後再進行下一步預約，本宿舍保留是否同意提供看房之最終決定權</p>
+                <ol className="list-decimal space-y-5 text-gray sm:text-lg leading-relaxed mt-7 mb-20 pl-5">
                     <li>
                         <strong>預約時間確認：</strong> 預約看房需於 <span className="text-red-500">至少 24 小時前提出申請</span>，並請準時赴約，若需更改時間請提前<span className="text-red-500"> 至少 24 小時通知</span>。
                     </li>
@@ -31,7 +31,7 @@ export default function Guidelines () {
                 </ol>
                 <Button 
                 variant="brown" 
-                className="absolute bottom-10 right-10"
+                className="md:absolute md:bottom-10 md:right-10"
                 onClick={() => router.push("/appointment/form" )}
                 >下一頁</Button>
 
