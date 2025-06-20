@@ -26,7 +26,7 @@ export default function Chat () {
     // 呼叫 useChatRooms
     const { BF, roomType } = roomInfo;
     
-    const chatRooms = useChatRooms(
+    const { chatRooms, refresh } = useChatRooms(
         user?.uid ?? "",
         user?.role ?? "member", // member | admin
         undefined, // 略過 filterType
@@ -39,32 +39,36 @@ export default function Chat () {
         if (!user) return;
 
         const fetchRoom = async () => {
-        // 從 user.roomNumber 解析出 building, floor, roomNo // ex: "C101" -> building="C", floor="1", roomNo="101"
-        const rn = user.roomNumber as string;
-        const building = rn.charAt(0); // "C"
-        const floorNum = parseInt(rn.charAt(1), 10); // 1
-        const roomNo = rn.slice(1); // "101"
+            // 從 user.roomNumber 解析出 building, floor, roomNo // ex: "C101" -> building="C", floor="1", roomNo="101"
+            const rn = user.roomNumber as string;
+            const building = rn.charAt(0); // "C"
+            const floorNum = parseInt(rn.charAt(1), 10); // 1
+            const roomNo = rn.slice(1); // "101"
 
-        const roomDocId = `${building}-${floorNum}-${roomNo}`; // ex: "C-1-101"
-        const roomRef = doc(db, "rooms", roomDocId);
-        const roomSnap = await getDoc(roomRef);
+            const roomDocId = `${building}-${floorNum}-${roomNo}`; // ex: "C-1-101"
+            const roomRef = doc(db, "rooms", roomDocId);
+            const roomSnap = await getDoc(roomRef);
 
-        if (roomSnap.exists()) {
-            const data = roomSnap.data() as {type: string; building: string ; floor: string;};
-            setRoomInfo({
-            BF: data.type === "套房" ? null : data.building + data.floor,
-            roomType: data.type === "套房" ? "suite" : "shared",
-            });
-        } else {
-            console.warn(`rooms/${roomDocId} 不存在`);
-            setRoomInfo({ BF: null, roomType: null });
-        }
+            if (roomSnap.exists()) {
+                const data = roomSnap.data() as {type: string; building: string ; floor: string;};
+                setRoomInfo({
+                    BF: data.type === "套房" ? null : data.building + data.floor,
+                    roomType: data.type === "套房" ? "suite" : "shared",
+                });
+            } else {
+                console.warn(`rooms/${roomDocId} 不存在`);
+                setRoomInfo({ BF: null, roomType: null });
+            }
 
-        setRoomLoading(false);
+            setRoomLoading(false);
         };
 
         fetchRoom();
     }, [user]);
+
+    useEffect(()=>{
+        refresh();
+    },[activeRoomId])
 
     // 尚未登入或資料載入中，顯示 loading
     if (!user ||roomLoading) {

@@ -17,67 +17,84 @@ export type Message = {
   };
 }
 
-export function useMessages(roomId: string) {
+export function useMessages(roomId: string, userId: string) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(true);
+    const [unreadStartIndex, setUnreadStartIndex] = useState<number | null>(null);
 
     useEffect(() => {
-        if (!roomId) return;
+        if (!roomId || !userId) return;
 
-        const q = query(
-        collection(db, "chatRooms", roomId, "messages"),
-        orderBy("createdAt", "asc")
-        );
+        let unsubscribe: () => void = () => {}; // 預設為空函式，避免報錯
 
-        const senderCache = new Map<string, { name: string; avatar: string }>();
+        const fetch = async () => {
+            // 等待 100ms，讓 serverTimestamp 有時間寫入
+            await new Promise((res) => setTimeout(res, 100));
+            const readDoc = await getDoc(doc(db, "chatRooms", roomId, "readStatus", userId));
+            const lastRead = readDoc.data()?.lastRead;
+            const lastReadTime = lastRead instanceof Timestamp ? lastRead.toMillis() : 0; // toMillis：將 Firestore Timestamp 時間轉成毫秒數字，以利 number 比較
 
-        const unsubscribe = onSnapshot(q, async (snapshot) => {
-            const docs = snapshot.docs;
-            const msgs: Message[] = [];
+            const q = query(collection(db, "chatRooms", roomId, "messages"), orderBy("createdAt", "asc"));
 
-            for (const docSnap of docs) {
-                const data = docSnap.data();
-                const msg: Message = {
-                    id: docSnap.id,
-                    senderId: data.senderId,
-                    content: data.content,
-                    createdAt: data.createdAt,
-                    localTimestamp: data.localTimestamp || Date.now(),
-                    attachments: data.attachments || [],
-                };
+            const senderCache = new Map<string, { name: string; avatar: string }>();
 
-                const ADMIN_UID = process.env.NEXT_PUBLIC_ADMIN_UID!;
-                // 管理員身份判斷
-                if (msg.senderId === ADMIN_UID) {
-                    msg.senderProfile = {
-                    name: "管理員",
-                    avatar: "/icons/member/Headshot.svg",
+            unsubscribe = onSnapshot(q, async (snapshot) => {
+                const docs = snapshot.docs;
+                const msgs: Message[] = [];
+                let unreadIndex: number | null = null;
+
+                for (let i = 0; i < docs.length; i++) {
+                    const docSnap = docs[i];
+                    const data = docSnap.data();
+                    const msg: Message = {
+                        id: docSnap.id,
+                        senderId: data.senderId,
+                        content: data.content,
+                        createdAt: data.createdAt,
+                        localTimestamp: data.localTimestamp || Date.now(),
+                        attachments: data.attachments || [],
                     };
-                } else {
-                    if (senderCache.has(msg.senderId)) {
-                    msg.senderProfile = senderCache.get(msg.senderId);
-                    } else {
-                    const userRef = doc(db, "members", msg.senderId);
-                    const userSnap = await getDoc(userRef);
-                    if (userSnap.exists()) {
-                        const userData = userSnap.data();
-                        const profile = {
-                        name: userData.name || "未知用戶",
-                        avatar: userData.photoURL || "/icons/member/Headshot.svg",
+
+                    const createdAtMs = data.createdAt?.toMillis?.() ?? 0;
+                    
+                    if (unreadIndex === null && createdAtMs > lastReadTime && data.senderId !== userId) {unreadIndex = i;}
+
+                    const ADMIN_UID = process.env.NEXT_PUBLIC_ADMIN_UID!;
+                    if (msg.senderId === ADMIN_UID) {
+                        msg.senderProfile = {
+                        name: "管理員",
+                        avatar: "/icons/member/Headshot.svg",
                         };
-                        senderCache.set(msg.senderId, profile);
-                        msg.senderProfile = profile;
+                    } else {
+                        if (senderCache.has(msg.senderId)) {
+                            msg.senderProfile = senderCache.get(msg.senderId);
+                        } else {
+                            const userRef = doc(db, "members", msg.senderId);
+                            const userSnap = await getDoc(userRef);
+                            if (userSnap.exists()) {
+                                const userData = userSnap.data();
+                                const profile = {
+                                name: userData.name || "未知用戶",
+                                avatar: userData.photoURL || "/icons/member/Headshot.svg",
+                                };
+                                senderCache.set(msg.senderId, profile);
+                                msg.senderProfile = profile;
+                            }
+                        }
                     }
-                    }
+                    msgs.push(msg);
                 }
-                msgs.push(msg);
-            }
-        setMessages(msgs);
-        setLoading(false);
-        });
 
+                setMessages(msgs);
+                setUnreadStartIndex(unreadIndex);
+                setLoading(false);
+            });
+        }
+
+        fetch();
         return () => unsubscribe();
-    }, [roomId]);
 
-    return { messages, loading };
+    }, [roomId, userId]);
+
+    return { messages, loading, unreadStartIndex };
 }

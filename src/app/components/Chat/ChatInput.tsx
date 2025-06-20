@@ -5,6 +5,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db } from "@/app/lib/firebase";
 import { FirebaseStorage } from "firebase/storage";
+import { markRoomAsRead } from "./markAsRead";
 
 interface ChatInputProps {
   roomId: string;
@@ -41,6 +42,7 @@ export default function ChatInput({roomId, userId, storage}: ChatInputProps) {
     setText("");
     setFile(null);
     setPreviewUrl(null);
+    markRoomAsRead(roomId, userId);
     setSending(false);
   };
 

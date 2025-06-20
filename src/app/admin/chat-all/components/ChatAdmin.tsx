@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { storage } from "@/app/lib/firebase";
 import { useAuth } from "@/app/auth/authContext";
 import { useChatRooms } from "@/app/hooks/useChatRooms";
@@ -16,7 +16,11 @@ export default function ChatAdmin () {
     useFCM(user?.uid);
 
     // 取得聊天室清單（admin 角色可取得所有房間）
-    const chatRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "system");
+    const { chatRooms, refresh } = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "system");
+
+    useEffect(() => {
+        refresh();
+    }, [])
 
     if (loading || !user) return <LoadingSpinner />;
 

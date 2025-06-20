@@ -22,7 +22,7 @@ export default function ParcelContent () {
     const [sending, setSending] = useState(false);
 
     // 取得 private 聊天室清單 
-    const privateRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
+    const { chatRooms } = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
 
     useEffect(() => {
             const fetchData = async () => {
@@ -88,7 +88,7 @@ export default function ParcelContent () {
         try {
 
             for (const member of selectedMembers) {
-                const room = privateRooms.find((r) => r.members?.[0] === member.uid);
+                const room = chatRooms.find((r) => r.members?.[0] === member.uid);
                 if (!room) continue;
 
                 const message = `${member.name}： ${text}`;

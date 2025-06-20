@@ -1,15 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, orderBy, limit } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
+import { DocumentData, QuerySnapshot } from "firebase/firestore";
 
-type ChatRoom = {
+export type ChatRoom = {
     id: string;
     name: string;
     type: "global" | "BF" | "private"; // BF 是 building + floor // ex: "C1"
     BF?: string;
     members?: string[];
+    hasUnread?: boolean;
 }
 
 export function useChatRooms(
@@ -21,78 +23,80 @@ export function useChatRooms(
 ) {
     const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
 
-    useEffect(() => {
-        const fetchRooms = async () => {
+    const fetchRooms = async () => {
             const roomRef = collection(db, "chatRooms");
             const allRooms: ChatRoom[] = [];
+
+            const addRoomsFromSnapshot = async (snap: QuerySnapshot<DocumentData>) => {
+                for (const docSnap of snap.docs) {
+                    const data = docSnap.data() as Omit<ChatRoom, "id">;
+                    const roomId = docSnap.id;
+
+                    let hasUnread = false;
+
+                    try {
+                        const readRef = doc(db, "chatRooms", roomId, "readStatus", userId);
+                        const readSnap = await getDoc(readRef);
+                        const lastRead = readSnap.exists() ? readSnap.data().lastRead?.toMillis?.() ?? null : null;
+                        
+                        const messageRef = collection(db, "chatRooms", roomId, "messages");
+                        const latestMsgQuery = query(messageRef, orderBy("createdAt", "desc"), limit(1));
+                        const latestSnap = await getDocs(latestMsgQuery);
+
+                        if (!latestSnap.empty && lastRead) {
+                            const latest = latestSnap.docs[0].data();
+                            const latestTime = latest.createdAt?.toMillis?.() ?? 0;
+                            // console.log(`Room: ${roomId}, latestTime: ${latestTime}`);
+                            // console.log(`Room: ${roomId}, lastRead: ${lastRead}`);
+                            hasUnread = latestTime > lastRead;
+                            // console.log(`Room: ${roomId}, hasUnread: ${hasUnread}`);
+                        }
+                    } catch (error) {
+                        console.warn(`取得 unread 判斷失敗: ${roomId}`, error);
+                    }
+
+                    allRooms.push({ id: roomId, ...data, hasUnread });
+                }
+            };
 
             if (role === "admin") {
                 // 管理員：全部聊天室 + 所有 BF + 所有 private 聊天
                 if (filterType === "system") {
                     // global + BF 聊天室
-                    const globalQuery = query(roomRef, where("type", "==", "global"));
-                    const globalSnap = await getDocs(globalQuery);
-                    globalSnap.forEach((doc) => {
-                        const data = doc.data() as Omit<ChatRoom, "id">;
-                        allRooms.push({ id: doc.id, ...data });
-                    });
-
-                    const bfQuery = query(roomRef, where("type", "==", "BF"));
-                    const bfSnap = await getDocs(bfQuery);
-                    bfSnap.forEach((doc) => {
-                        const data = doc.data() as Omit<ChatRoom, "id">;
-                        allRooms.push({ id: doc.id, ...data });
-                    });
+                    const globalSnap = await getDocs(query(roomRef, where("type", "==", "global")));
+                    await addRoomsFromSnapshot(globalSnap);
+                    const bfSnap = await getDocs(query(roomRef, where("type", "==", "BF")));
+                    await addRoomsFromSnapshot(bfSnap);
+                    
                 } else if (filterType === "private") {
                     // private 聊天室
-                    const privateQuery = query(roomRef, where("type", "==", "private"));
-                    const privateSnap = await getDocs(privateQuery);
-                    privateSnap.forEach((doc) => {
-                        const data = doc.data() as Omit<ChatRoom, "id">;
-                        allRooms.push({ id: doc.id, ...data });
-                    });
+                    const privateSnap = await getDocs(query(roomRef, where("type", "==", "private")));
+                    await addRoomsFromSnapshot(privateSnap);
                 }
 
             } else {
                 // 會員：分段查詢
                 // 1. global 聊天室（所有人都能看到）
-                const globalQuery = query(roomRef, where("type", "==", "global"));
-                const globalSnap = await getDocs(globalQuery);
-                globalSnap.forEach((doc) => {
-                    const data = doc.data() as Omit<ChatRoom, "id">;
-                    allRooms.push({ id: doc.id, ...data });
-                });
+                const globalSnap = await getDocs(query(roomRef, where("type", "==", "global")));
+                await addRoomsFromSnapshot(globalSnap);
 
                 // 2. private 聊天室
-                const privateQuery = query(roomRef,
-                    where("type", "==", "private"),
-                    where("members", "array-contains", userId)
-                );
-                const privateSnap = await getDocs(privateQuery);
-                privateSnap.forEach((doc) => {
-                    const data = doc.data() as Omit<ChatRoom, "id">;
-                    allRooms.push({ id: doc.id, ...data });
-                });
+                const privateSnap = await getDocs(query(roomRef, where("type", "==", "private"), where("members", "array-contains", userId)));
+                await addRoomsFromSnapshot(privateSnap);
 
                 // 3. BF 群組（針對雅房者）
                 if (roomType === "shared" && BF) {
-                    const bfQuery = query(roomRef,
-                        where("type", "==", "BF"),
-                        where("BF", "==", BF)
-                    );
-                    const bfSnap = await getDocs(bfQuery);
-                    bfSnap.forEach((doc) => {
-                        const data = doc.data() as Omit<ChatRoom, "id">;
-                        allRooms.push({ id: doc.id, ...data });
-                    });
+                    const bfSnap = await getDocs(query(roomRef, where("type", "==", "BF"), where("BF", "==", BF)));
+                    await addRoomsFromSnapshot(bfSnap);
                 }
             }
+
             setChatRooms(allRooms);
         };
 
+    useEffect(() => {
         if (userId) fetchRooms();
+    }, [userId, role, filterType, BF, roomType]);
 
-    }, [userId, role, BF, roomType]);
-
-    return chatRooms;
+    return { chatRooms, refresh: fetchRooms };
 }

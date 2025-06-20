@@ -1,6 +1,7 @@
 type ChatRoom = {
   id: string;
   name: string;
+  hasUnread?: boolean;
 }
 
 type Props = {
@@ -10,16 +11,26 @@ type Props = {
 }
 
 export default function ChatSelector({ rooms, activeRoomId, onSelectRoom }: Props) {
+  // rooms.map((room)=> {
+  //   console.log(`ChatSelector:, ${room.id}, hasUnread: ${room.hasUnread}`)
+  // })
+  
   return (
     <div className="flex items-center px-4 py-2 border-b border-primary-pink">
       {rooms.map((room) => (
-        <span
+        <div
           key={room.id}
-          className={`mr-2 cursor-pointer ${room.id === activeRoomId ? "text-primary-green" : "text-gray"}`}
+          className="relative mr-4"
           onClick={() => onSelectRoom(room.id)}
         >
-          {room.name}
-        </span>
+          <span className={`cursor-pointer ${room.id === activeRoomId ? "text-primary-green" : "text-gray"}`}>
+            {room.name}
+          </span>
+
+          {room.hasUnread && room.id !== activeRoomId && (
+            <span className="absolute -top-1 -right-2 block h-2 w-2 rounded-full bg-red-500" />
+          )}
+        </div>
       ))}
     </div>
   );

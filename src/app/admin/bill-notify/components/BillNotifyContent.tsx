@@ -29,7 +29,7 @@ export default function BillNotifyContent() {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [sending, setSending] = useState(false);
 
-    const privateRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
+    const { chatRooms } = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
 
     const docId = getTaiwanYearMonth();
   
@@ -107,7 +107,7 @@ export default function BillNotifyContent() {
 
         try {
             for (const member of membersToSend) {
-                const room = privateRooms.find((r) => r.members?.[0] === member.uid);
+                const room = chatRooms.find((r) => r.members?.[0] === member.uid);
                 if (!room) continue;
 
                 await addDoc(collection(db, "chatRooms", room.id, "messages"), {

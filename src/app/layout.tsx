@@ -15,7 +15,7 @@ export const metadata: Metadata = {
    openGraph: {
     title: "長青宿舍｜學生最佳住宿選擇 ",
     description: "安全、舒適、近校園的理想宿舍空間，只提供給女性租屋。",
-    url: "http://localhost:3000", // 要記得換成正式上線後的網址
+    url: "https://evergreen-dorm.vercel.app/",
     siteName: "長青宿舍",
     images: [
       {

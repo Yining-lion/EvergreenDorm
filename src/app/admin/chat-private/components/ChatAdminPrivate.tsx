@@ -14,6 +14,7 @@ type ChatRoomWithProfile = {
   name: string;
   type: "private";
   members: string[];
+  hasUnread?: boolean;
   memberProfile: {
     uid: string;
     roomNumber: string;
@@ -29,14 +30,14 @@ export default function ChatAdminPrivate () {
     const [search, setSearch] = useState("");
 
     // 取得聊天室清單 (admin 角色可取得所有房間)
-    const chatRooms = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
+    const { chatRooms, refresh } = useChatRooms(user?.uid ?? "", user?.role ?? "admin", "private");
 
     useEffect(() => {
 
         // cancelled 用來避免在組件卸載後還執行 setState() 而報錯
         let cancelled = false;
 
-        (async () => {
+        const load = async () => {
             const list: ChatRoomWithProfile[] = [];
 
             for (const room of chatRooms) {
@@ -66,10 +67,16 @@ export default function ChatAdminPrivate () {
                     setActiveRoomId(list[0].id);
                 }
             }
-        })();
+        }
+
+        load();
 
         return () => {cancelled = true;};
     }, [chatRooms, user]);
+
+    useEffect(()=>{
+        refresh();
+    },[])
 
     // useMemo 用來記憶計算結果
     const filtered = useMemo(() => {
@@ -110,6 +117,9 @@ export default function ChatAdminPrivate () {
                     <span className="text-gray">
                         {room.memberProfile.roomNumber} - {room.memberProfile.name}
                     </span>
+                    {room.hasUnread && room.id !== activeRoomId && (
+                    <span className="h-2 w-2 rounded-full bg-red-500 ml-2" />
+                    )}
                 </button>
                 ))}
             </div>
@@ -126,9 +136,7 @@ export default function ChatAdminPrivate () {
                     </div>
                 </div>
                 ) : (
-                <div className="flex items-center justify-center text-gray-400">
-                    請選擇一位會員開始聊天
-                </div>
+                <LoadingSpinner />
                 )}
             </div>
         </div>
