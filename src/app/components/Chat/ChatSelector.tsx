@@ -16,11 +16,11 @@ export default function ChatSelector({ rooms, activeRoomId, onSelectRoom }: Prop
   // })
   
   return (
-    <div className="flex items-center px-4 py-2 border-b border-primary-pink">
+    <div className="flex items-center px-4 py-2 border-b border-primary-pink  overflow-x-auto">
       {rooms.map((room) => (
         <div
           key={room.id}
-          className="relative mr-4"
+          className="relative mr-4 text-nowrap"
           onClick={() => onSelectRoom(room.id)}
         >
           <span className={`cursor-pointer ${room.id === activeRoomId ? "text-primary-green" : "text-gray"}`}>

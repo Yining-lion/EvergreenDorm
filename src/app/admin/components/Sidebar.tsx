@@ -4,8 +4,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from "framer-motion";
+import Button from '@/app/components/Buttons';
+import HandleSignout from '@/app/components/HandleSignout';
+import { auth } from '@/app/lib/firebase';
 
 export default function Sidebar() {
+    const user = auth.currentUser;
     const path = usePathname();
     const [open, setOpen] = useState<Record<string, boolean>>({});
     const [clickedByUser, setClickedByUser] = useState<Record<string, boolean>>({});
@@ -103,7 +107,7 @@ export default function Sidebar() {
     ];
 
     return (
-        <div className="w-64 h-screen bg-white border-r border-admin-gray overflow-y-auto">
+        <div className="w-full lg:w-64 h-screen bg-white border-r border-admin-gray overflow-y-auto">
             <nav className="">
                 {menu.map((item) => (
                     <div key={item.title} className="border-b border-admin-gray">
@@ -153,6 +157,10 @@ export default function Sidebar() {
                     </div>
                 ))}
             </nav>
+
+            <div className="flex justify-center mt-10">
+                <Button variant="gray" onClick={() => HandleSignout(user)}>登出</Button>
+            </div>
         </div>
     )
 }

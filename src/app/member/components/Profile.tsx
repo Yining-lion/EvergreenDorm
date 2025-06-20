@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 import Button from "@/app/components/Buttons";
 import { auth, db, storage } from "@/app/lib/firebase";
 import { doc, setDoc, serverTimestamp, getDoc, getDocs, collection } from "firebase/firestore";
-import { signOut } from "firebase/auth"
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { getMessaging, deleteToken } from "firebase/messaging";
 import Modal from '@/app/components/Modal';
+import HandleSignout from "@/app/components/HandleSignout";
 
 export default function Profile () {
     const router = useRouter();
@@ -140,25 +139,6 @@ export default function Profile () {
             alert("提交失敗，請稍後再試！");
         }
     };
-
-    const handleSignout = async () =>  {
-        if (typeof window !== "undefined" && user) {
-            try {
-                const messaging = getMessaging();
-                // 刪除裝置上的 FCM token
-                await deleteToken(messaging);
-                // 更新 Firestore 將 token 清除
-                await setDoc(doc(db, "members", user.uid), {
-                fcmToken: null,
-                }, { merge: true });
-                console.log("FCM token 已刪除");
-            } catch (err) {
-                console.error("刪除 FCM token 發生錯誤", err);
-            }
-        }
-
-        await signOut(auth);
-    }
 
     useEffect(() => {
         // 顯示已填寫之會員資料在畫面上
@@ -326,7 +306,7 @@ export default function Profile () {
                 <div className="flex justify-between mt-15">
                 <Button 
                 variant="gray" 
-                onClick={handleSignout}>
+                onClick={() => HandleSignout(user)}>
                     登出
                 </Button>
                 <Button variant="brown" onClick={handleSubmit}>

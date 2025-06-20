@@ -38,8 +38,8 @@ export default function AppoinmentRecord() {
     return (
         <div className="flex flex-col items-end">
             
-            <div className="bg-white w-full">
-                <table className="w-full text-gray-700 text-center ">
+            <div className="bg-white w-full overflow-x-auto">
+                <table className="min-w-[800px] w-full text-gray-700 text-center ">
                     <thead>
                         <tr className="h-12">
                             <th>姓名</th>

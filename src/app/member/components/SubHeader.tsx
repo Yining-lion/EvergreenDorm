@@ -9,7 +9,7 @@ export default function SubHeader () {
 
     return (
     <header className="w-full sticky top-[70px] border-b-1 border-pink-50 bg-white z-1">
-        <div className="w-[90%] lg:w-[1200px] m-auto py-3 flex justify-between items-center px-3">
+        <div className="w-[90%] xl:w-[1200px] m-auto py-3 flex justify-between items-center px-3">
             <nav className="flex items-center text-gray text-lg">
                 {subNavItems.map((item, index) => {
                     const isActive = pathname === item.href;

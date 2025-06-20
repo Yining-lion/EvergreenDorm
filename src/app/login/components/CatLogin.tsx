@@ -81,6 +81,25 @@ export default function CatLogin () {
                     />
                 </div>
 
+                <div className="flex gap-2 w-full px-1 text-sm text-orange-600 cursor-pointer">
+                    <span
+                    className="hover:underline"
+                    onClick={() => {
+                        setEmail("test@gmail.com");
+                        setPassword("123456");
+                    }}>
+                        測試會員
+                    </span>
+                    <span 
+                    className="hover:underline"
+                    onClick={() => {
+                        setEmail("admin@gmail.com");
+                        setPassword("987654");
+                    }}>
+                        測試管理員
+                    </span>
+                </div>
+
                 {/* <p className="absolute right-0 bottom-28 text-sm cursor-pointer hover:underline">忘記密碼？</p> */}
 
                 {message && (
@@ -90,10 +109,10 @@ export default function CatLogin () {
                 )}
 
                 { isLoading ? 
-                <div className="w-[150px] bg-[#FF8C62] py-2 font-semibold mt-17 flex justify-center">
+                <div className="w-[150px] bg-[#FF8C62] py-2 font-semibold mt-12 flex justify-center">
                     <div className="w-6 h-6 border-3 border-white border-t-[#FF8C62] rounded-full animate-spin"></div>
                 </div>:
-                <button type="submit" className="w-[150px] bg-[#FF8C62] text-white py-2 cursor-pointer font-semibold mt-17">登入</button>
+                <button type="submit" className="w-[150px] bg-[#FF8C62] text-white py-2 cursor-pointer font-semibold mt-12">登入</button>
                 }
 
                 <Link href="/signup">

@@ -10,6 +10,9 @@ const notoSansTC = Noto_Sans_TC({
 
 export const metadata: Metadata = {
   title: "長青宿舍",
+  icons: {
+    icon: "/favicon.ico",
+  },
   description: "長青宿舍提供安全、舒適、設備齊全的住宿環境，鄰近校園交通便利，只提供給女性租屋。",
   keywords: ["長青宿舍", "學生宿舍", "學生租屋", "學校住宿", "安全宿舍", "女生宿舍"],
    openGraph: {

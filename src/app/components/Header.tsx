@@ -17,7 +17,7 @@ export default function Header() {
 
   return (
   <header className="w-full sticky top-0 h-[70px] border-b-1 border-pink-50 bg-white z-1 flex justify-between items-center">
-      <div className="w-[90%] lg:w-[1200px] m-auto flex justify-between items-center">
+      <div className="w-[90%] xl:w-[1200px] m-auto flex justify-between items-center">
 
           <Link href="/">
             <Image src="/images/logo.png" alt="長青宿舍" width={180} height={150} className="w-[150px] xs:w-[180px] "/>
@@ -49,8 +49,8 @@ export default function Header() {
                 </svg>
               </button>
 
-              <div className="border border-gray-300 h-10 mr-5"></div>
-              <img src="/icons/member/Bell.svg" className="size-10 mr-2" />
+              {/* <div className="border border-gray-300 h-10 mr-5"></div> */}
+              {/* <img src="/icons/member/Bell.svg" className="size-10 mr-2" /> */}
               <Link href="/member">
                 <img src={user.photoURL as string || "/icons/member/Headshot.svg"} className="size-10 object-cover rounded-full" />
               </Link>
