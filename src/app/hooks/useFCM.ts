@@ -48,11 +48,11 @@ export function useFCM(userId?: string) {
         await setDoc(doc(db, "members", userId), { fcmToken: token }, { merge: true });
       }
 
-      onMessage(messaging, (payload) => {
-        console.log("收到通知：", payload);
-        const { title, body } = payload.data!;
-          new Notification(title, { body });
-      });
+      // onMessage(messaging, (payload) => {
+      //   console.log("收到通知：", payload);
+      //   const { title, body } = payload.data!;
+      //     new Notification(title, { body });
+      // });
     };
 
     if (typeof window !== "undefined") {
