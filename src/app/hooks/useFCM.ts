@@ -1,6 +1,6 @@
 // src/app/hooks/useFCM.ts
 import { useEffect } from "react";
-import { getMessaging, getToken, onMessage, isSupported } from "firebase/messaging";
+import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
