@@ -19,7 +19,7 @@ messaging.onBackgroundMessage(function (payload) {
   const notificationTitle = payload.data.title;
   const notificationOptions = {
     body: payload.data.body || "你有一則新訊息" ,
-    icon: "/images/小logo.svg",
+    icon: "/images/小logo.png",
     data: {
       roomId: payload.data.roomId,
       roomType: payload.data.roomType,
