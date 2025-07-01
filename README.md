@@ -237,28 +237,28 @@ project-root
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx
-├── public
-│   ├── icons/
-│   ├── images/
-│   ├── favicon.ico
-│   └── firebase-messaging-sw.js
+└── public
+    ├── icons/
+    ├── images/
+    ├── favicon.ico
+    └── firebase-messaging-sw.js
 
 [Server Side: Firebase Functions]
-├── project-root
-│   ├── functions
-│   │   ├── src
-│   │   │   └── index.ts
-│   │   ├── lib/
-│   │   ├── package.json
-│   │   └── tsconfig.json
+project-root
+└── functions
+    ├── src
+    │   └── index.ts
+    ├── lib/
+    ├── package.json
+    └── tsconfig.json
 
 [Data Scripts]
-├── project-root
-│   ├── initializeData
-│   │   ├── images/
-│   │   ├── JSON/
-│   │   ├── setAdmin.ts
-│   │   └── upload.ts
+project-root
+└── initializeData
+    ├── images/
+    ├── JSON/
+    ├── setAdmin.ts
+    └── upload.ts
 ```
 
 ## 🔹Demo
