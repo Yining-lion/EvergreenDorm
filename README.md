@@ -244,19 +244,21 @@ project-root
 │   └── firebase-messaging-sw.js
 
 [Server Side: Firebase Functions]
-├── functions
-│   ├── src
-│   │   └── index.ts
-│   ├── lib/
-│   ├── package.json
-│   └── tsconfig.json
+├── project-root
+│   ├── functions
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   ├── lib/
+│   │   ├── package.json
+│   │   └── tsconfig.json
 
 [Data Scripts]
-├── initializeData
-│   ├── images/
-│   ├── JSON/
-│   ├── setAdmin.ts
-│   ├── upload.ts
+├── project-root
+│   ├── initializeData
+│   │   ├── images/
+│   │   ├── JSON/
+│   │   ├── setAdmin.ts
+│   │   ├── upload.ts
 ```
 
 ## 🔹Demo
