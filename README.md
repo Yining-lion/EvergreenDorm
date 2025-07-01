@@ -258,7 +258,7 @@ project-root
 │   │   ├── images/
 │   │   ├── JSON/
 │   │   ├── setAdmin.ts
-│   │   ├── upload.ts
+│   │   └── upload.ts
 ```
 
 ## 🔹Demo
