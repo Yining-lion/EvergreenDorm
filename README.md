@@ -14,7 +14,250 @@ https://evergreen-dorm.vercel.app/
 - 使用 Node.js 撰寫腳本進行初始資料建置
 - 使用 Firebase Authentication / Firestore / Cloud Messaging 實現登入驗證、資料儲存與通知推播
 - 使用 `useContext` 建立全站共享的 Auth 狀態，並根據使用者角色（訪客 / 住宿者 / 管理員）進行權限控管與條件渲染
-- 管理者功能支援完整 CRUD（如房型管理、會員管理、修改前台內容等）
+- 管理員功能支援完整 CRUD（如房型管理、會員管理、修改前台內容等）
+
+## 🔹專案架構圖
+```
+[Client Side: Next.js App]
+project-root
+├── src/app
+│   ├── activity
+│   │   ├── components
+│   │   │   └── ActivityContent.tsx
+│   │   └── page.tsx 
+│   ├── admin
+│   │   ├── appoinment-notify
+│   │   │   ├── components
+│   │   │   │   └── AppoinmentNotify.tsx
+│   │   │   └── page.tsx 
+│   │   ├── appoinment-record
+│   │   │   ├── components
+│   │   │   │   └── AppoinmentRecord.tsx
+│   │   │   └── page.tsx 
+│   │   ├── bill-base
+│   │   │   ├── components
+│   │   │   │   ├── BillBaseContent.tsx
+│   │   │   │   └── InitialExcelExportButton.tsx
+│   │   │   └── page.tsx 
+│   │   ├── bill-calculate
+│   │   │   ├── components
+│   │   │   │   ├── BillCalculateContent.tsx
+│   │   │   │   ├── CaculateAndMessages.tsx
+│   │   │   │   ├── CaculateExcelExportButton.tsx
+│   │   │   │   ├── PublicBathsElec.tsx
+│   │   │   │   └── RoomsElec.tsx
+│   │   │   └── page.tsx 
+│   │   ├── bill-notify
+│   │   │   ├── components
+│   │   │   │   └── BillNotifyContent.tsx
+│   │   │   └── page.tsx 
+│   │   ├── chat-all
+│   │   │   ├── components
+│   │   │   │   └── ChatAdmin.tsx
+│   │   │   └── page.tsx 
+│   │   ├── chat-private
+│   │   │   ├── components
+│   │   │   │   └── ChatAdminPrivate.tsx
+│   │   │   └── page.tsx 
+│   │   ├── components
+│   │   │   ├── bill
+│   │   │   │   ├── downloadCaculateElecExcel.tsx
+│   │   │   │   ├── downloadInitialElecExcel.ts
+│   │   │   │   ├── downloadTotalRateExcel.tsx
+│   │   │   │   ├── fetchCaculateData.ts
+│   │   │   │   ├── fetchRoomMemberData.ts
+│   │   │   │   └── getTaiwanYearMonth.ts
+│   │   │   ├── HeaderAdmin.tsx
+│   │   │   └── Sidebar.tsx
+│   │   ├── frontend-activity
+│   │   │   ├── [activityId]
+│   │   │   │   ├── add
+│   │   │   │   │   ├── AddActivityImagePage.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── edit/[imageIndex]
+│   │   │   │   │   ├── ActivityImageEditPage.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── ActivityDetailPage.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── add
+│   │   │   │   ├── AddNewYearPage.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── components
+│   │   │   │   └── FrontendActivity.tsx
+│   │   │   └── page.tsx 
+│   │   ├── frontend-church
+│   │   │   ├── aboutSister
+│   │   │   │   ├── add
+│   │   │   │   │   ├── AddSisterPage.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── edit/[sisterId]
+│   │   │   │   │   ├── EditSisterPage.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── SisterDetailPage.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── churchContent
+│   │   │   │   ├── EditChurchContent.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── components
+│   │   │   │   └── FrontendChurch.tsx
+│   │   │   └── page.tsx 
+│   │   ├── frontend-environment
+│   │   │   ├── [facilityId]
+│   │   │   │   ├── add
+│   │   │   │   │   ├── AddFacilityImagePage.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── edit/[imageIndex]
+│   │   │   │   │   ├── FacilityImageEditPage.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── FacilityDetailPage.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── components
+│   │   │   │   └── FrontendEnvironment.tsx
+│   │   │   └── page.tsx 
+│   │   ├── frontend-faq
+│   │   │   ├── [faqId]
+│   │   │   │   ├── add
+│   │   │   │   │   ├── AddFaqPage.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── edit/[questionIndex]
+│   │   │   │   │   ├── EditQuestionPage.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── FaqDetailPage.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── components
+│   │   │   │   └── FrontendFAQ.tsx
+│   │   │   └── page.tsx 
+│   │   ├── member-info
+│   │   │   ├── components
+│   │   │   │   └── MemberInfo.tsx
+│   │   │   └── page.tsx 
+│   │   ├── member-verify
+│   │   │   ├── components
+│   │   │   │   └── MemberVerify.tsx
+│   │   │   └── page.tsx 
+│   │   ├── parcel
+│   │   │   ├── components
+│   │   │   │   └── ParcelContent.tsx
+│   │   │   └── page.tsx 
+│   │   ├── roomList
+│   │   │   ├── components
+│   │   │   │   └── Rooms.tsx
+│   │   │   └── page.tsx 
+│   │   ├── roomType
+│   │   │   ├── components
+│   │   │   │   └── RoomStats.tsx
+│   │   │   └── page.tsx 
+│   ├── appointment
+│   │   ├── components
+│   │   │   └── Guidelines.tsx
+│   │   ├── form
+│   │   │   ├── components
+│   │   │   │   └── Form.tsx
+│   │   │   └── page.tsx
+│   │   ├── thankyou
+│   │   │   ├── components
+│   │   │   │   └── Thankyou.tsx
+│   │   │   └── page.tsx
+│   │   └── page.tsx 
+│   ├── auth
+│   │   ├── AdminRoute.tsx
+│   │   ├── authContext.tsx
+│   │   └── ProtectedRoute.tsx
+│   ├── church
+│   │   ├── components
+│   │   │   ├── AboutSister.tsx
+│   │   │   ├── History&Vision.tsx
+│   │   │   └── ChurchContent.tsx
+│   │   └── page.tsx 
+│   ├── components
+│   │   ├── Activity
+│   │   │   ├── ActivityModal.tsx
+│   │   │   └── useFetchActivity.ts
+│   │   ├── Chat
+│   │   │   ├── ChatInput.tsx
+│   │   │   ├── ChatSelector.tsx
+│   │   │   ├── ChatWindow.tsx
+│   │   │   └── markAsRead.ts
+│   │   ├── Church
+│   │   │   ├── SisterCard.tsx
+│   │   │   └── useFetchChurch.ts
+│   │   ├── Evironnment
+│   │   │   ├── FacilityCard.tsx
+│   │   │   ├── FacilityModal.tsx
+│   │   │   └── useFetchEnvironment.ts
+│   │   ├── FAQ
+│   │   │   └── useFetchFAQ.ts
+│   │   ├── Buttons.tsx
+│   │   ├── CatWrapper.tsx
+│   │   ├── FadeInSection.tsx
+│   │   ├── Footer.tsx
+│   │   ├── HandleSignout.ts
+│   │   ├── Header.tsx
+│   │   ├── LoadingSpinner.tsx
+│   │   ├── MainBanner.tsx
+│   │   ├── Modal.tsx
+│   │   └── SectionLayout.tsx
+│   ├── constants
+│   │   └── navItems.tsx
+│   ├── environment
+│   │   ├── components
+│   │   │   └── EnvironmentContent.tsx
+│   │   └── page.tsx 
+│   ├── faq
+│   │   ├── components
+│   │   │   ├── FAQ.tsx
+│   │   │   └── FAQItem.tsx
+│   │   └── page.tsx 
+│   ├── hooks
+│   │   ├── useChatRooms.ts
+│   │   ├── useFCM.ts
+│   │   └── useMessages.ts
+│   ├── lib
+│   │   ├── firebase.ts
+│   │   └── handleImageChange.ts
+│   ├── login
+│   │   ├── components
+│   │   │   └── CatLogin.tsx
+│   │   └── page.tsx 
+│   ├── member/
+│   │   ├── chat
+│   │   │   ├── components
+│   │   │   │   └── Chat.tsx
+│   │   │   └── page.tsx 
+│   │   ├── components
+│   │   │   ├── Profile.tsx
+│   │   │   └── SubHeader.tsx
+│   │   └── page.tsx 
+│   ├── services
+│   │   └── setupChatForNewUser.ts
+│   ├── signup/
+│   │   ├── components
+│   │   │   └── CatSignup.tsx
+│   │   └── page.tsx 
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── public
+│   ├── icons/
+│   ├── images/
+│   ├── favicon.ico
+│   └── firebase-messaging-sw.js
+
+[Server Side: Firebase Functions]
+├── functions
+│   ├── src
+│   │   └── index.ts
+│   ├── lib/
+│   ├── package.json
+│   └── tsconfig.json
+
+[Data Scripts]
+├── initializeData
+│   ├── images/
+│   ├── JSON/
+│   ├── setAdmin.ts
+│   ├── upload.ts
+```
 
 ## 🔹Demo
 - 首頁
