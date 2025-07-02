@@ -24,7 +24,8 @@ project-root
 │   ├── activity
 │   │   ├── components
 │   │   │   └── ActivityContent.tsx
-│   │   └── page.tsx 
+│   │   └── page.tsx
+│   │
 │   ├── admin
 │   │   ├── appoinment-notify
 │   │   │   ├── components
@@ -143,10 +144,11 @@ project-root
 │   │   │   ├── components
 │   │   │   │   └── Rooms.tsx
 │   │   │   └── page.tsx 
-│   │   ├── roomType
-│   │   │   ├── components
-│   │   │   │   └── RoomStats.tsx
-│   │   │   └── page.tsx 
+│   │   └── roomType
+│   │       ├── components
+│   │       │   └── RoomStats.tsx
+│   │       └── page.tsx
+│   │
 │   ├── appointment
 │   │   ├── components
 │   │   │   └── Guidelines.tsx
@@ -158,17 +160,20 @@ project-root
 │   │   │   ├── components
 │   │   │   │   └── Thankyou.tsx
 │   │   │   └── page.tsx
-│   │   └── page.tsx 
+│   │   └── page.tsx
+│   │
 │   ├── auth
 │   │   ├── AdminRoute.tsx
 │   │   ├── authContext.tsx
 │   │   └── ProtectedRoute.tsx
+│   │
 │   ├── church
 │   │   ├── components
 │   │   │   ├── AboutSister.tsx
 │   │   │   ├── History&Vision.tsx
 │   │   │   └── ChurchContent.tsx
-│   │   └── page.tsx 
+│   │   └── page.tsx
+│   │
 │   ├── components
 │   │   ├── Activity
 │   │   │   ├── ActivityModal.tsx
@@ -197,28 +202,35 @@ project-root
 │   │   ├── MainBanner.tsx
 │   │   ├── Modal.tsx
 │   │   └── SectionLayout.tsx
+│   │
 │   ├── constants
 │   │   └── navItems.tsx
+│   │
 │   ├── environment
 │   │   ├── components
 │   │   │   └── EnvironmentContent.tsx
-│   │   └── page.tsx 
+│   │   └── page.tsx
+│   │
 │   ├── faq
 │   │   ├── components
 │   │   │   ├── FAQ.tsx
 │   │   │   └── FAQItem.tsx
-│   │   └── page.tsx 
+│   │   └── page.tsx
+│   │
 │   ├── hooks
 │   │   ├── useChatRooms.ts
 │   │   ├── useFCM.ts
 │   │   └── useMessages.ts
+│   │
 │   ├── lib
 │   │   ├── firebase.ts
 │   │   └── handleImageChange.ts
+│   │
 │   ├── login
 │   │   ├── components
 │   │   │   └── CatLogin.tsx
-│   │   └── page.tsx 
+│   │   └── page.tsx
+│   │ 
 │   ├── member/
 │   │   ├── chat
 │   │   │   ├── components
@@ -227,13 +239,16 @@ project-root
 │   │   ├── components
 │   │   │   ├── Profile.tsx
 │   │   │   └── SubHeader.tsx
-│   │   └── page.tsx 
+│   │   └── page.tsx
+│   │
 │   ├── services
 │   │   └── setupChatForNewUser.ts
-│   ├── signup/
+│   │
+│   ├── signup
 │   │   ├── components
 │   │   │   └── CatSignup.tsx
-│   │   └── page.tsx 
+│   │   └── page.tsx
+│   │
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx
