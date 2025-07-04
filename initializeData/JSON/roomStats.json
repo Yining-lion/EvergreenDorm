@@ -6,21 +6,24 @@
         "type": "套房",
         "person": "單人",
         "count": 40,
-        "rent": [ 7350 ]
+        "rent": [ 7350 ],
+        "remaining": 0
     },
         {
         "category": "單人雅房",
         "type": "雅房",
         "person": "單人",
         "count": 8,
-        "rent": [ 4500, 5250, 6300, 6800 ]
+        "rent": [ 4500, 5250, 6300, 6800 ],
+        "remaining": 0
     },
         {
         "category": "雙人雅房",
         "type": "雅房",
         "person": "雙人",
         "count": 18,
-        "rent": [ 9000 ]
+        "rent": [ 9000 ],
+        "remaining": 0
     }
   ]
 }

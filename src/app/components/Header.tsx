@@ -16,7 +16,7 @@ export default function Header() {
   if (loading) return null;
 
   return (
-  <header className="w-full sticky top-0 h-[70px] border-b-1 border-pink-50 bg-white z-1 flex justify-between items-center">
+  <header className="w-full sticky top-0 h-[70px] border-b-1 border-pink-50 bg-white z-2 flex justify-between items-center">
       <div className="w-[90%] xl:w-[1200px] m-auto flex justify-between items-center">
 
           <Link href="/">

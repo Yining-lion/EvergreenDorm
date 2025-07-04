@@ -4,12 +4,13 @@ import { getDocs, collection, doc, updateDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "@/app/lib/firebase";
 
-type RoomStat = {
+export type RoomStat = {
   category: string;
   type: string;
   person: string;
   count: number;
   rent: number[];
+  remaining: number;
 };
 
 export default function RoomStats() {
@@ -52,6 +53,7 @@ export default function RoomStats() {
                 person: stat.person,
                 count: stat.count,
                 rent: stat.rent,
+                remaining: stat.remaining,
                 updatedAt: new Date()
             })
         }
@@ -68,14 +70,15 @@ export default function RoomStats() {
 
     return (
         <div className="flex items-end">
-            <div className="bg-white w-[700px]">
-                <table className="w-full text-gray-700 text-center">
+            <div className="bg-white w-full overflow-x-auto">
+                <table className="min-w-[700px] w-full text-gray-700 text-center">
                     <thead>
                         <tr className="h-12">
                             <th>單雙人</th>
                             <th>房型</th>
                             <th>間數</th>
                             <th>租金</th>
+                            <th>剩餘房間數</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,8 +127,18 @@ export default function RoomStats() {
                                         required
                                         />):
                                     (stat.rent.join("、"))}
-                                    
                                 </td>
+                                <td className="border-t border-admin-gray">
+                                    {isEditing ?
+                                    (<input
+                                        name="remaining"
+                                        value={stat.remaining}
+                                        className="bg-admin-gray text-center"
+                                        onChange={(e) => handleChange(index, e)}
+                                        required
+                                    />):
+                                    (stat.remaining)}
+                                </td> 
                             </tr>
                         ))}
                     </tbody>

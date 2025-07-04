@@ -20,7 +20,7 @@ export default function ChatAdmin () {
 
     useEffect(() => {
         refresh();
-    }, [])
+    }, [activeRoomId])
 
     if (loading || !user) return <LoadingSpinner />;
 

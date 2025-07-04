@@ -75,7 +75,7 @@ async function uploadRoomStats(data: any[], jsonFileName: string) {
   const collectionName = path.basename(jsonFileName, ".json");
 
   for (const block of data) {
-    const { category, type, person, count, rent } = block;
+    const { category, type, person, count, rent, remaining } = block;
     
     // 寫入至 Firestore
     await db.collection(collectionName).doc(category).set({
@@ -84,6 +84,7 @@ async function uploadRoomStats(data: any[], jsonFileName: string) {
       person,
       count,
       rent,
+      remaining,
       createdAt: new Date(),
     });
 
@@ -267,8 +268,8 @@ async function uploadJsonWithType(jsonFileName: string) {
   const { type, data } = parsed;
 
   switch (type) {
-    case "chatRooms":
-      await uploadChatRooms(data, jsonFileName);
+    case "roomStats":
+      await uploadRoomStats(data, jsonFileName);
       break;
     default:
       console.warn(`不支援的 type: ${type}（檔案: ${jsonFileName}）`);

@@ -57,7 +57,10 @@ export function useMessages(roomId: string, userId: string) {
 
                     const createdAtMs = data.createdAt?.toMillis?.() ?? 0;
                     
-                    if (unreadIndex === null && createdAtMs > lastReadTime && data.senderId !== userId) {unreadIndex = i;}
+                    if (unreadIndex === null && createdAtMs > lastReadTime && data.senderId !== userId) {
+                        unreadIndex = i; 
+                        // console.log(roomId, unreadIndex);
+                    }
 
                     const ADMIN_UID = process.env.NEXT_PUBLIC_ADMIN_UID!;
                     if (msg.senderId === ADMIN_UID) {

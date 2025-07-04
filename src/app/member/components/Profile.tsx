@@ -194,8 +194,8 @@ export default function Profile () {
                         <img src="/icons/member/Camera.svg"></img>
                     </button>
 
-                    <Modal isOpen={showAvatarModal} onClose={() => setShowAvatarModal(false)}>
-                        <div className="p-6 text-center space-y-4">
+                    <Modal isOpen={showAvatarModal} onClose={() => setShowAvatarModal(false)} position="top">
+                        <div className="p-10 text-center space-y-4">
                             <label className="block font-semibold text-gray hover:underline cursor-pointer">
                             上傳圖片
                                 <input

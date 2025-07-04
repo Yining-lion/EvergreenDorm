@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react";
-import { collection, query, where, getDocs, doc, getDoc, orderBy, limit } from "firebase/firestore";
+import { useEffect, useRef, useState } from "react";
+import { collection, query, where, getDocs, doc, getDoc, orderBy, limit, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
 import { DocumentData, QuerySnapshot } from "firebase/firestore";
 
@@ -22,6 +22,12 @@ export function useChatRooms(
     roomType?: "shared" | "suite"
 ) {
     const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
+    const unsubscribers = useRef<(() => void)[]>([]);
+
+    const clearListeners = () => {
+        unsubscribers.current.forEach((unsub) => unsub());
+        unsubscribers.current = [];
+    };
 
     const fetchRooms = async () => {
             const roomRef = collection(db, "chatRooms");
@@ -34,30 +40,49 @@ export function useChatRooms(
 
                     let hasUnread = false;
 
-                    try {
-                        const readRef = doc(db, "chatRooms", roomId, "readStatus", userId);
-                        const readSnap = await getDoc(readRef);
-                        const lastRead = readSnap.exists() ? readSnap.data().lastRead?.toMillis?.() ?? null : null;
-                        
-                        const messageRef = collection(db, "chatRooms", roomId, "messages");
-                        const latestMsgQuery = query(messageRef, orderBy("createdAt", "desc"), limit(1));
-                        const latestSnap = await getDocs(latestMsgQuery);
+                    const readRef = doc(db, "chatRooms", roomId, "readStatus", userId);
+                    const readSnap = await getDoc(readRef);
+                    const lastRead = readSnap.exists() ? readSnap.data().lastRead?.toMillis?.() ?? null : null;
+                    
+                    const messageRef = collection(db, "chatRooms", roomId, "messages");
+                    const latestMsgQuery = query(messageRef, orderBy("createdAt", "desc"), limit(1));
+                    const latestSnap = await getDocs(latestMsgQuery);
 
-                        if (!latestSnap.empty && lastRead) {
-                            const latest = latestSnap.docs[0].data();
-                            const latestTime = latest.createdAt?.toMillis?.() ?? 0;
-                            // console.log(`Room: ${roomId}, latestTime: ${latestTime}`);
-                            // console.log(`Room: ${roomId}, lastRead: ${lastRead}`);
-                            hasUnread = latestTime > lastRead;
-                            // console.log(`Room: ${roomId}, hasUnread: ${hasUnread}`);
-                        }
-                    } catch (error) {
-                        console.warn(`取得 unread 判斷失敗: ${roomId}`, error);
+                    if (!latestSnap.empty && lastRead) {
+                        const latest = latestSnap.docs[0].data();
+                        const latestTime = latest.createdAt?.toMillis?.() ?? 0;
+                        // console.log(`Room: ${roomId}, latestTime: ${latestTime}`);
+                        // console.log(`Room: ${roomId}, lastRead: ${lastRead}`);
+                        hasUnread = latestTime > lastRead;
+                        // console.log(`Room: ${roomId}, hasUnread: ${hasUnread}`);
                     }
 
                     allRooms.push({ id: roomId, ...data, hasUnread });
+
+                    // 即時監聽這個聊天室的最新訊息
+                    const unsubscribe = onSnapshot(latestMsgQuery, (snapshot) => {
+                        if (!snapshot.empty) {
+                            const latest = snapshot.docs[0].data();
+                            const latestTime = latest.createdAt?.toMillis?.() ?? 0;
+                            setChatRooms((prev) =>
+                            prev.map((room) => {
+                                if (room.id === roomId) {
+                                return {
+                                    ...room,
+                                    hasUnread: latestTime > lastRead,
+                                };
+                                }
+                                return room;
+                            })
+                            );
+                        }
+                    });
+
+                    unsubscribers.current.push(unsubscribe);
                 }
             };
+
+            clearListeners();
 
             if (role === "admin") {
                 // 管理員：全部聊天室 + 所有 BF + 所有 private 聊天

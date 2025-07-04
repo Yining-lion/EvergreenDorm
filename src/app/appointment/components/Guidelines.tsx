@@ -1,12 +1,26 @@
 "use client"
 
+import { RoomStat } from "@/app/admin/roomType/components/RoomStats";
 import Button from "@/app/components/Buttons";
 import SectionLayout from "@/app/components/SectionLayout";
+import { db } from "@/app/lib/firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
 
 export default function Guidelines () {
     const router = useRouter();
+    const [roomStats, setRoomStats] = useState<RoomStat[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const roomStatsSnapshot = await getDocs(collection(db, "roomStats"))
+            const roomStatsData = roomStatsSnapshot.docs.map((doc) => doc.data() as RoomStat)
+            setRoomStats(roomStatsData);
+        };
+        fetchData();
+    },[])
 
     return (
         <SectionLayout title="預約說明">
@@ -26,7 +40,14 @@ export default function Guidelines () {
                         <strong>遲到與取消：</strong> 若遲到超過 15 分鐘且未事先通知，將視同取消。無故爽約兩次以上者，將列入黑名單，恕不再接受預約。
                     </li>
                     <li>
-                        <strong>目前剩餘房間數：</strong> 單人套房 0 間、單人雅房 0 間、雙人雅房 0 間。若無剩餘房間數，僅提供環境參觀。如欲了解各房型內容，請至 <Link href="/environment" className="hover:underline">環境介紹</Link> 頁面查看。
+                        <strong>目前剩餘房間數：</strong>
+                        {roomStats.map((stat, index) => (
+                            <span key={index}>
+                                {stat.category} {stat.remaining} 間
+                                {index < roomStats.length - 1 && ("、")}
+                            </span>
+                        ))}
+                        。若無剩餘房間數，僅提供環境參觀。如欲了解各房型內容，請至 <Link href="/environment" className="hover:underline">環境介紹</Link> 頁面查看。
                     </li>
                 </ol>
                 <Button 
